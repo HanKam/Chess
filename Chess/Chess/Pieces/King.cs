@@ -45,7 +45,7 @@ namespace Chess.Pieces
 
             // castling - search in history for moves king, rooks and check space TODO
 
-            // verification if check after move TODO
+            
 
             return tempPossibleMoves;
         }

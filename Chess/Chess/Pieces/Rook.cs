@@ -75,7 +75,7 @@ namespace Chess.Pieces
                 tempPossibleMoves.Add(new Point(currentPositionX - i, currentPositionY));
             }
 
-            // verification if check after move TODO
+            
 
             return tempPossibleMoves;
         }

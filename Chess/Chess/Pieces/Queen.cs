@@ -30,6 +30,8 @@ namespace Chess.Pieces
             List<Point> tempPossibleMoves = new Rook(this._colour).getPossibleMoves(gb, currentPositionX, currentPositionY);
             tempPossibleMoves.AddRange(new Bishop(this._colour).getPossibleMoves(gb, currentPositionX, currentPositionY));
 
+            
+
             return tempPossibleMoves;
         }
     }

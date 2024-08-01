@@ -67,11 +67,60 @@ namespace Chess
         {
             return x < 0 || x > 7 || y < 0 || y > 7;
         }
+        //do zmiany;
         public bool isMovePossible(int oldX, int oldY, int newX, int newY)
         {
-            IPiece oldPiece = this.board[oldX, oldY];
-            return oldPiece.getPossibleMoves(this, oldX, oldY).Contains(new Point(newX, newY));
+            return GetPossibleMoves(oldX, oldY).Contains(new Point(newX, newY));
         }
+
+        public bool IsCheck(Colour colour)
+        {
+            for(int i = 0; i < 8; i++)
+            {
+                for(int j = 0; j < 8; j++)
+                {
+                    if (this.board[i, j] != null && this.board[i, j].getColour() != colour)
+                    {
+                        List<Point> possibleMoves = this.board[i, j].getPossibleMoves(this, i, j);
+                        foreach(Point move in possibleMoves)
+                        {
+                            if (this.board[move.X, move.Y] != null && this.board[move.X, move.Y].ToString() == "K")
+                                return true;
+                        }
+                    }
+                }
+            }
+
+
+            return false;
+        }
+
+        public List<Point> RemoveMovesLeadingToCheck(int currentPositionX, int currentPositionY, List<Point> possibleMoves, Colour colour)
+        {
+            List<Point> tempPossibleMoves = possibleMoves.ToList();
+            foreach (Point move in possibleMoves)
+            {
+                IPiece prevPiece = this.board[move.X, move.Y];
+                this.MovePiece(currentPositionX, currentPositionY, move.X, move.Y);
+                if(this.IsCheck(colour))
+                {
+                    tempPossibleMoves.Remove(move);
+                    Console.WriteLine(move.ToString());
+                }
+                this.MovePiece(move.X, move.Y, currentPositionX, currentPositionY);
+                this.board[move.X, move.Y] = prevPiece;
+            }
+
+            return tempPossibleMoves;
+        }
+
+        public List<Point> GetPossibleMoves(int x, int y)
+        {
+            List<Point> tempPossibleMoves = this.board[x, y].getPossibleMoves(this, x, y);
+            return RemoveMovesLeadingToCheck(x, y, tempPossibleMoves, this.board[x, y].getColour());
+            
+        }
+
         public void PrintBoard()
         {
             for (int y = 7; y >= 0; y--)

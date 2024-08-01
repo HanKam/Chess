@@ -53,7 +53,7 @@ namespace Chess.Pieces
             {
                 tempPossibleMoves.Add(new Point(currentPositionX + 1, currentPositionY + step));
             }
-            if (currentPositionX - 1 > 0 && 
+            if (currentPositionX - 1 >= 0 && 
                 ChessBoardHelper.IsThereEnemy(gb, currentPositionX - 1, currentPositionY + step, this._colour))
             {
                 tempPossibleMoves.Add(new Point(currentPositionX - 1, currentPositionY + step));
@@ -69,8 +69,10 @@ namespace Chess.Pieces
 
             // en passant - serach in history if last oponent's move was 2 step pawn TODO
 
+            // promotion TODO
 
-            // verification if check after the move TODO
+
+            
 
 
             return tempPossibleMoves;

@@ -40,6 +40,8 @@ namespace Chess.Pieces
                     tempPossibleMoves.Add(new Point(currentPositionX + jump.X, currentPositionY + jump.Y));
             }
 
+           
+
             return tempPossibleMoves;
         }
     }
