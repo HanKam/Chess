@@ -15,7 +15,7 @@ namespace Chess.Pieces
         {
             _colour = colour;
         }
-        public Colour getColour()
+        public Colour GetColour()
         {
             return _colour;
         }
@@ -25,10 +25,10 @@ namespace Chess.Pieces
             return _name.ToString();
         }
 
-        public List<Point> getPossibleMoves(ChessBoard gb, int currentPositionX, int currentPositionY)
+        public List<Point> GetPossibleMoves(ChessBoard gb, int currentPositionX, int currentPositionY, MovesHistory history)
         {
-            List<Point> tempPossibleMoves = new Rook(this._colour).getPossibleMoves(gb, currentPositionX, currentPositionY);
-            tempPossibleMoves.AddRange(new Bishop(this._colour).getPossibleMoves(gb, currentPositionX, currentPositionY));
+            List<Point> tempPossibleMoves = new Rook(this._colour).GetPossibleMoves(gb, currentPositionX, currentPositionY, history);
+            tempPossibleMoves.AddRange(new Bishop(this._colour).GetPossibleMoves(gb, currentPositionX, currentPositionY, history));
 
             
 

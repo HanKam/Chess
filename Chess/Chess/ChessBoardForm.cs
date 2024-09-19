@@ -10,12 +10,15 @@ namespace Chess
         private const int _tileSize = 50;
         private ChessBoard _chessBoard;
         private Point? _lastClickedTile;
+        private MovesHistory _history;
 
         public ChessBoardForm()
         {
             InitializeComponent();
             _chessBoard = new ChessBoard();
             _chessBoard.Initializer();
+
+            _history = new MovesHistory();
         }
 
         private void ChessBoardForm_Load(object sender, EventArgs e)
@@ -79,7 +82,7 @@ namespace Chess
                     {
                         currentPanel.BackgroundImage = new Bitmap(TextureHandler.GetPieceTexture(
                                                                                 piece.ToString(), 
-                                                                                piece.getColour()), 
+                                                                                piece.GetColour()), 
                                                                   new Size(_tileSize, _tileSize));
                     }
                     else
@@ -104,7 +107,7 @@ namespace Chess
             // colouring possible moves for clicked piece
             int lastX = _lastClickedTile.Value.X;
             int lastY = _lastClickedTile.Value.Y;
-            List<Point> possibleMoves = _chessBoard.GetPossibleMoves(lastX, lastY);
+            List<Point> possibleMoves = _chessBoard.GetPossibleMoves(lastX, lastY, _history);
 
             if (possibleMoves.Count > 0)
             {
@@ -119,13 +122,14 @@ namespace Chess
         void TileClick(object sender, EventArgs e, int x, int y)
         {
             Panel clickedPanel = sender as Panel;
-             
-            Console.WriteLine("Klikniêto pole: ({0}, {1})", x, y);
-
-            
-            if (_lastClickedTile != null && _chessBoard.isMovePossible(_lastClickedTile.Value.X, _lastClickedTile.Value.Y, x, y))
+                         
+            if (_lastClickedTile != null && _chessBoard.IsMovePossible(_lastClickedTile.Value.X, _lastClickedTile.Value.Y, x, y, _history))
             {
+                _history.AddMove(new HistoryRecord(_chessBoard.GetField(_lastClickedTile.Value.X, _lastClickedTile.Value.Y).ToString()[0],
+                                                        new Point(_lastClickedTile.Value.X, _lastClickedTile.Value.Y),
+                                                        new Point(x, y)));
                 _chessBoard.MovePiece(_lastClickedTile.Value.X, _lastClickedTile.Value.Y, x, y);
+                
                 _lastClickedTile = null;
             }
             else

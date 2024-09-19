@@ -12,8 +12,8 @@ namespace Chess.Pieces
     }
     internal interface IPiece 
     {
-        Colour getColour();
-        List<Point> getPossibleMoves(ChessBoard gb, int currentPositionX, int currentPositionY);
+        Colour GetColour();
+        List<Point> GetPossibleMoves(ChessBoard gb, int currentPositionX, int currentPositionY, MovesHistory history);
 
     }
 }

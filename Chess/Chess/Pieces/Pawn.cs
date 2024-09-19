@@ -16,7 +16,7 @@ namespace Chess.Pieces
             _colour = colour;
         }
 
-        public Colour getColour()
+        public Colour GetColour()
         {
             return _colour;
         }
@@ -26,7 +26,7 @@ namespace Chess.Pieces
             return _name.ToString();
         }
 
-        public List<Point> getPossibleMoves(ChessBoard gb, int currentPositionX, int currentPositionY)
+        public List<Point> GetPossibleMoves(ChessBoard gb, int currentPositionX, int currentPositionY, MovesHistory history)
         {
             List<Point> tempPossibleMoves = new List<Point>();
             int step = 0;
@@ -67,7 +67,23 @@ namespace Chess.Pieces
                 tempPossibleMoves.Add(new Point(currentPositionX, currentPositionY + step * 2));
             }
 
-            // en passant - serach in history if last oponent's move was 2 step pawn TODO
+            if (history.IsEmpty())
+                return tempPossibleMoves;
+
+            // en passant
+            HistoryRecord record = history.GetLastMove();
+            if (record != null && record.piece == _name && 
+                record.from.Y == currentPositionY + step * 2 && record.to.Y == currentPositionY)
+            {
+                if (record.from.X == currentPositionX + 1)
+                {
+                    tempPossibleMoves.Add(new Point(currentPositionX + 1, currentPositionY + step));
+                }
+                if (record.from.X == currentPositionX - 1)
+                {
+                    tempPossibleMoves.Add(new Point(currentPositionX - 1, currentPositionY + step));
+                }
+            }
 
             // promotion TODO
 

@@ -15,7 +15,7 @@ namespace Chess.Pieces
         {
             _colour = colour;
         }
-        public Colour getColour()
+        public Colour GetColour()
         {
             return _colour;
         }
@@ -25,7 +25,7 @@ namespace Chess.Pieces
             return _name.ToString();
         }
 
-        public List<Point> getPossibleMoves(ChessBoard gb, int currentPositionX, int currentPositionY)
+        public List<Point> GetPossibleMoves(ChessBoard gb, int currentPositionX, int currentPositionY, MovesHistory history)
         {
             List<Point> tempPossibleMoves = new List<Point>();
             int[] steps = { -1, 0, 1 };
@@ -43,9 +43,33 @@ namespace Chess.Pieces
                 }
             }
 
-            // castling - search in history for moves king, rooks and check space TODO
+            // castling 
+            if (history.DidPieceMoved(currentPositionX, currentPositionY))
+                return tempPossibleMoves;
 
-            
+            if (gb.GetField(currentPositionX + 3, currentPositionY) != null && !history.DidPieceMoved(currentPositionX + 3, currentPositionY))
+            {
+                bool isEmpty =  (gb.GetField(currentPositionX + 1, currentPositionY) == null) &&
+                                (gb.GetField(currentPositionX + 2, currentPositionY) == null);
+
+                if(isEmpty)
+                {
+                    tempPossibleMoves.Add(new Point(currentPositionX + 2, currentPositionY));
+                }
+
+            }
+            if (gb.GetField(currentPositionX - 4, currentPositionY) != null && !history.DidPieceMoved(currentPositionX - 4, currentPositionY))
+            {
+                bool isEmpty =  (gb.GetField(currentPositionX - 1, currentPositionY) == null) &&
+                                (gb.GetField(currentPositionX - 2, currentPositionY) == null) &&
+                                (gb.GetField(currentPositionX - 3, currentPositionY) == null);
+
+                if (isEmpty)
+                {
+                    tempPossibleMoves.Add(new Point(currentPositionX - 2, currentPositionY));
+                }
+            }
+
 
             return tempPossibleMoves;
         }

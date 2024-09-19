@@ -15,7 +15,7 @@ namespace Chess.Pieces
             _colour = colour;
         }
 
-        public Colour getColour()
+        public Colour GetColour()
         {
             return _colour;
         }
@@ -26,7 +26,7 @@ namespace Chess.Pieces
         }
 
 
-        public List<Point> getPossibleMoves(ChessBoard gb, int currentPositionX, int currentPositionY)
+        public List<Point> GetPossibleMoves(ChessBoard gb, int currentPositionX, int currentPositionY, MovesHistory history)
         {
 
             List<Point> tempPossibleMoves = new List<Point>();

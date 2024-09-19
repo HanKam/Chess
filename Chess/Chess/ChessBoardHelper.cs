@@ -17,13 +17,13 @@ namespace Chess
         {
             IPiece piece = gb.GetField(x, y);
             if (piece == null) return false;
-            return piece.getColour() != colour;
+            return piece.GetColour() != colour;
         }
         static public bool IsThereMyPiece(ChessBoard gb, int x, int y, Colour colour)
         {
             IPiece piece = gb.GetField(x, y);
             if (piece == null) return false;
-            return piece.getColour() == colour;
+            return piece.GetColour() == colour;
         }
         static public bool IsEmptyOrIsThereEnemy(ChessBoard gb, int x, int y, Colour colour)
         {
