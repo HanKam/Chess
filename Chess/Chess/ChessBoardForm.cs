@@ -8,17 +8,14 @@ namespace Chess
 
         private Panel[,] _chessBoardPanels;
         private const int _tileSize = 50;
-        private ChessBoard _chessBoard;
         private Point? _lastClickedTile;
-        private MovesHistory _history;
+        private Game _game;
 
         public ChessBoardForm()
         {
             InitializeComponent();
-            _chessBoard = new ChessBoard();
-            _chessBoard.Initializer();
-
-            _history = new MovesHistory();
+            
+            _game = new Game();
         }
 
         private void ChessBoardForm_Load(object sender, EventArgs e)
@@ -77,7 +74,7 @@ namespace Chess
                     Panel currentPanel = _chessBoardPanels[x, y];
 
                     // drawing pieces
-                    IPiece piece = _chessBoard.GetField(x, y);
+                    IPiece piece = _game.GetField(x, y);
                     if (piece != null)
                     {
                         currentPanel.BackgroundImage = new Bitmap(TextureHandler.GetPieceTexture(
@@ -107,7 +104,7 @@ namespace Chess
             // colouring possible moves for clicked piece
             int lastX = _lastClickedTile.Value.X;
             int lastY = _lastClickedTile.Value.Y;
-            List<Point> possibleMoves = _chessBoard.GetPossibleMoves(lastX, lastY, _history);
+            List<Point> possibleMoves = _game.GetPossibleMoves(lastX, lastY);
 
             if (possibleMoves.Count > 0)
             {
@@ -123,18 +120,15 @@ namespace Chess
         {
             Panel clickedPanel = sender as Panel;
                          
-            if (_lastClickedTile != null && _chessBoard.IsMovePossible(_lastClickedTile.Value.X, _lastClickedTile.Value.Y, x, y, _history))
-            {
-                _history.AddMove(new HistoryRecord(_chessBoard.GetField(_lastClickedTile.Value.X, _lastClickedTile.Value.Y).ToString()[0],
-                                                        new Point(_lastClickedTile.Value.X, _lastClickedTile.Value.Y),
-                                                        new Point(x, y)));
-                _chessBoard.MovePiece(_lastClickedTile.Value.X, _lastClickedTile.Value.Y, x, y);
-                
+            if (_lastClickedTile != null && _game.IsMovePossible(_lastClickedTile.Value.X, _lastClickedTile.Value.Y, x, y))
+            {             
+                _game.TryToMovePiece(_lastClickedTile.Value.X, _lastClickedTile.Value.Y, x, y);
+
                 _lastClickedTile = null;
             }
             else
             {
-                if (_chessBoard.GetField(x, y) != null)
+                if (_game.GetField(x,y) != null)
                 {
                     _lastClickedTile = new Point(x, y);
                     
@@ -144,6 +138,9 @@ namespace Chess
                     _lastClickedTile = null;
                 }
             }
+
+            Console.WriteLine("Checkmate:" + _game.IsCheckmate());
+            Console.WriteLine("Stalemate:" + _game.IsStalemate());
 
             UpdateBoard();
             this.Refresh();
