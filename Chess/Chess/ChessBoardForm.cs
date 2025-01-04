@@ -1,5 +1,7 @@
 using Chess.Pieces;
+using System;
 using System.Drawing;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Chess
 {
@@ -7,15 +9,29 @@ namespace Chess
     {
 
         private Panel[,] _chessBoardPanels;
+        private Panel _promotionPanel;
         private const int _tileSize = 50;
         private Point? _lastClickedTile;
+        private Point? _promoteTo;
         private Game _game;
+        private NetworkManager _networkManager;
 
-        public ChessBoardForm()
+        public ChessBoardForm(string huhuh)
         {
             InitializeComponent();
             
-            _game = new Game();
+            _networkManager = new NetworkManager(6942, ReceiveData);
+
+            if (huhuh == "m")
+            {
+                _game = new Game(Game.PlayerColour.White);
+                _networkManager.WaitForConnection();
+            }
+            else
+            {
+                _game = new Game(Game.PlayerColour.Black);
+                _networkManager.Connect("127.0.0.1", 6942);
+            }
         }
 
         private void ChessBoardForm_Load(object sender, EventArgs e)
@@ -25,7 +41,10 @@ namespace Chess
 
             BackColor = Color.LightSlateGray;
             this.DrawBoard();
+            this.DrawPromotionPanel();
         }
+
+
         private void DrawBoard()
         {
             Color colour1 = Color.SaddleBrown;
@@ -37,6 +56,16 @@ namespace Chess
                 Anchor = AnchorStyles.None,
                 Dock = DockStyle.Fill
             };
+
+            _promotionPanel = new Panel()
+            {
+                Width = _tileSize * 5 + 1,
+                Height = _tileSize + 5,
+                Location = new Point((_tileSize * 8 - _tileSize * 5 - 1)/2, -_tileSize - 8),
+                Visible = false,
+                Anchor = AnchorStyles.None,
+            };
+            board.Controls.Add(_promotionPanel);
 
             for (int x = 0; x < 8; x++)
             {
@@ -116,14 +145,102 @@ namespace Chess
             return;
         }
 
+        private void DrawPromotionPanel()
+        {       
+            Button btnQueen = new Button()
+            {
+                BackgroundImage = new Bitmap(TextureHandler.GetPieceTexture(new Queen(_game.GetColourOnMove()).ToString(), _game.GetColourOnMove()), new Size(_tileSize, _tileSize)),
+                Location = new Point(0, 0),
+                Width = _tileSize,
+                Height = _tileSize
+            };
+            Button btnRook = new Button()
+            {
+                BackgroundImage = new Bitmap(TextureHandler.GetPieceTexture(new Rook(_game.GetColourOnMove()).ToString(), _game.GetColourOnMove()), new Size(_tileSize, _tileSize)),
+                Location = new Point(_tileSize, 0),
+                Width = _tileSize,
+                Height = _tileSize
+            };
+            Button btnBishop = new Button()
+            {
+                BackgroundImage = new Bitmap(TextureHandler.GetPieceTexture(new Bishop(_game.GetColourOnMove()).ToString(), _game.GetColourOnMove()), new Size(_tileSize, _tileSize)),
+                Location = new Point(_tileSize * 2, 0),
+                Width = _tileSize,
+                Height = _tileSize
+            };
+            Button btnKnight = new Button()
+            {
+                BackgroundImage = new Bitmap(TextureHandler.GetPieceTexture(new Knight(_game.GetColourOnMove()).ToString(), _game.GetColourOnMove()), new Size(_tileSize, _tileSize)),
+                Location = new Point(_tileSize * 3, 0),
+                Width = _tileSize,
+                Height = _tileSize
+            }; 
+            Button btnCancel = new Button()
+            {
+                Text = "Cancel",
+                Location = new Point(_tileSize * 4, 0),
+                Width = _tileSize,
+                Height = _tileSize
+            };
+
+
+            _promotionPanel.Controls.Add(btnQueen);
+            _promotionPanel.Controls.Add(btnRook);
+            _promotionPanel.Controls.Add(btnBishop);
+            _promotionPanel.Controls.Add(btnKnight);
+            _promotionPanel.Controls.Add(btnCancel);
+
+            // Przypisujemy zdarzenia do przycisków
+            btnQueen.Click += (sender, e) => PromotePawn(new Queen(_game.GetColourOnMove()));
+            btnRook.Click += (sender, e) => PromotePawn(new Rook(_game.GetColourOnMove()));
+            btnBishop.Click += (sender, e) => PromotePawn(new Bishop(_game.GetColourOnMove()));
+            btnKnight.Click += (sender, e) => PromotePawn(new Knight(_game.GetColourOnMove()));
+            btnCancel.Click += (sender, e) => ResetPromotionPanel();
+
+            _promotionPanel.BringToFront();
+        }
+
+        private void PromotePawn(IPiece piece)
+        {
+            bool success = _game.TryToPromotePawnGUI(_lastClickedTile.Value.X, _lastClickedTile.Value.Y, _promoteTo.Value.X, _promoteTo.Value.Y, piece);
+            if (success)
+            {
+                _networkManager.SendData(new Message(_lastClickedTile.Value.X, _lastClickedTile.Value.Y, _promoteTo.Value.X, _promoteTo.Value.Y, piece.ToString()).Serialize());
+            }
+            _lastClickedTile = null;
+
+            ResetPromotionPanel();
+        }
+
+        private void ResetPromotionPanel()
+        {
+            _promotionPanel.Visible = false;
+
+            UpdateBoard();
+            this.Refresh();
+        }
+
         void TileClick(object sender, EventArgs e, int x, int y)
         {
             Panel clickedPanel = sender as Panel;
-                         
-            if (_lastClickedTile != null && _game.IsMovePossible(_lastClickedTile.Value.X, _lastClickedTile.Value.Y, x, y))
-            {             
-                _game.TryToMovePiece(_lastClickedTile.Value.X, _lastClickedTile.Value.Y, x, y);
+            _promotionPanel.Visible = false;
 
+            if (_lastClickedTile != null && _game.IsMovePossible(_lastClickedTile.Value.X, _lastClickedTile.Value.Y, x, y))
+            {
+                if (isPromotion(_lastClickedTile, y))
+                {
+                    _promotionPanel.Visible = true;
+                    _promoteTo = new Point(x, y);
+                    return;
+                }
+
+                bool success = _game.TryToMovePieceGUI(_lastClickedTile.Value.X, _lastClickedTile.Value.Y, x, y);                
+
+                if (success)
+                {
+                    _networkManager.SendData(new Message(_lastClickedTile.Value.X, _lastClickedTile.Value.Y, x, y,
+                                            _game.GetField(x, y).ToString()).Serialize());
+                }
                 _lastClickedTile = null;
             }
             else
@@ -138,13 +255,60 @@ namespace Chess
                     _lastClickedTile = null;
                 }
             }
-
-            Console.WriteLine("Checkmate:" + _game.IsCheckmate());
-            Console.WriteLine("Stalemate:" + _game.IsStalemate());
-
+                     
             UpdateBoard();
             this.Refresh();
             
+        }
+
+        private bool isPromotion(Point? _lastClickedTile, int y2)
+        {
+            if (_game.GetField(_lastClickedTile.Value.X, _lastClickedTile.Value.Y).ToString() == "P")
+            {
+                if (y2 == 0 || y2 == 7)
+                    return true;
+            }
+            return false;
+        }
+
+        void ReceiveData(Message message)
+        {
+            if (InvokeRequired)
+            {
+                // Queueing in main thread 
+                Invoke(new Action<Message>(ReceiveData), message); 
+            }
+            else
+            {
+                // In main thread
+                IPiece piece;
+                Colour colour = _game.GetField(message.oldX, message.oldY).GetColour();
+
+                switch (message.piece)
+                {
+                    case "P": 
+                        piece = new Pawn(colour); break;
+                    case "R":
+                        piece = new Rook(colour); break;
+                    case "B": 
+                        piece = new Bishop(colour); break;
+                    case "N":
+                        piece = new Knight(colour); break;
+                    case "Q": 
+                        piece = new Queen(colour); break;
+                    case "K":
+                        piece = new King(colour); break;
+                    default: 
+                        piece = new Pawn(colour); break;
+                }
+
+                
+                Console.Out.WriteLine(message.Serialize());
+                
+                _game.TryToMovePieceNetwork(message.oldX, message.oldY, message.newX, message.newY, piece);
+                _lastClickedTile = null;    
+                UpdateBoard();
+            }
         }
     }
 }

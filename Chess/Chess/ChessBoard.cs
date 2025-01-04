@@ -58,6 +58,11 @@ namespace Chess
         {
             return this.board[x, y];
         }
+        public void SetField(int x, int y, IPiece piece)
+        {
+            this.board[x, y] = piece;
+        }
+    
         public void MovePiece(int oldX, int oldY, int newX, int newY)
         {
             //if en passant
@@ -66,7 +71,7 @@ namespace Chess
                 this.board[newX, oldY] = null;
             }
 
-            //castling
+            //if castling
             if (this.board[oldX,oldY].ToString() == "K")
             { 
                 if (oldX - newX > 1) 

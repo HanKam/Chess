@@ -12,8 +12,8 @@ namespace Chess
         {
             ApplicationConfiguration.Initialize();
 
-            
-            Application.Run(new ChessBoardForm());
+            string huhuhuuh = Console.ReadLine();
+            Application.Run(new ChessBoardForm(huhuhuuh));
 
         }
     }

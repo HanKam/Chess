@@ -85,12 +85,6 @@ namespace Chess.Pieces
                 }
             }
 
-            // promotion TODO
-
-
-            
-
-
             return tempPossibleMoves;
         }
     }
