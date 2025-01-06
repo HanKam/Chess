@@ -1,6 +1,7 @@
 using Chess.Pieces;
 using System;
 using System.Drawing;
+using System.Net;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace Chess
@@ -14,32 +15,39 @@ namespace Chess
         private Point? _lastClickedTile;
         private Point? _promoteTo;
         private Game _game;
-        private NetworkManager _networkManager;
+        private MoveNetworkManager _moveNetworkManager;
 
-        public ChessBoardForm(string huhuh)
+        
+        public enum ConnectionType
+        {
+            Host,
+            Client
+        }
+
+        public ChessBoardForm(ConnectionType connectionType, Colour colour, IPAddress ipAddress = null)
         {
             InitializeComponent();
             
-            _networkManager = new NetworkManager(6942, ReceiveData);
+            _moveNetworkManager = new MoveNetworkManager(6942, ReceiveData);
 
-            if (huhuh == "m")
+            if (connectionType == ConnectionType.Host)
             {
-                _game = new Game(Game.PlayerColour.White);
-                _networkManager.WaitForConnection();
+                _game = new Game(colour == Colour.White ? Game.PlayerColour.White : Game.PlayerColour.Black);
+                _moveNetworkManager.WaitForConnection();
             }
             else
             {
-                _game = new Game(Game.PlayerColour.Black);
-                _networkManager.Connect("127.0.0.1", 6942);
+                _game = new Game(colour == Colour.White ? Game.PlayerColour.White : Game.PlayerColour.Black);
+                _moveNetworkManager.Connect(ipAddress.ToString(), 6942);
             }
         }
+
 
         private void ChessBoardForm_Load(object sender, EventArgs e)
         {
             _chessBoardPanels = new Panel[8, 8];
             _lastClickedTile = null;
 
-            BackColor = Color.LightSlateGray;
             this.DrawBoard();
             this.DrawPromotionPanel();
         }
@@ -71,11 +79,12 @@ namespace Chess
             {
                 for (int y = 0; y < 8; y++)
                 {
+                    int visibleY = (_game.getPlayerColour() == Game.PlayerColour.Black) ? y : 7 - y;
                     // creating tiles
                     Panel boardTile = new Panel
                     {
                         Size = new Size(_tileSize, _tileSize),
-                        Location = new Point(_tileSize * x, _tileSize * y ),
+                        Location = new Point(_tileSize * x, _tileSize * visibleY),
                         BorderStyle = BorderStyle.FixedSingle,
                         Anchor = AnchorStyles.None
                     };
@@ -106,10 +115,7 @@ namespace Chess
                     IPiece piece = _game.GetField(x, y);
                     if (piece != null)
                     {
-                        currentPanel.BackgroundImage = new Bitmap(TextureHandler.GetPieceTexture(
-                                                                                piece.ToString(), 
-                                                                                piece.GetColour()), 
-                                                                  new Size(_tileSize, _tileSize));
+                        currentPanel.BackgroundImage = TextureHandler.GetPieceTexture(piece.ToString(), piece.GetColour());
                     }
                     else
                     {
@@ -205,7 +211,7 @@ namespace Chess
             bool success = _game.TryToPromotePawnGUI(_lastClickedTile.Value.X, _lastClickedTile.Value.Y, _promoteTo.Value.X, _promoteTo.Value.Y, piece);
             if (success)
             {
-                _networkManager.SendData(new Message(_lastClickedTile.Value.X, _lastClickedTile.Value.Y, _promoteTo.Value.X, _promoteTo.Value.Y, piece.ToString()).Serialize());
+                _moveNetworkManager.SendData(new MoveMessage(_lastClickedTile.Value.X, _lastClickedTile.Value.Y, _promoteTo.Value.X, _promoteTo.Value.Y, piece.ToString()).Serialize());
             }
             _lastClickedTile = null;
 
@@ -217,7 +223,6 @@ namespace Chess
             _promotionPanel.Visible = false;
 
             UpdateBoard();
-            this.Refresh();
         }
 
         void TileClick(object sender, EventArgs e, int x, int y)
@@ -238,7 +243,7 @@ namespace Chess
 
                 if (success)
                 {
-                    _networkManager.SendData(new Message(_lastClickedTile.Value.X, _lastClickedTile.Value.Y, x, y,
+                    _moveNetworkManager.SendData(new MoveMessage(_lastClickedTile.Value.X, _lastClickedTile.Value.Y, x, y,
                                             _game.GetField(x, y).ToString()).Serialize());
                 }
                 _lastClickedTile = null;
@@ -254,11 +259,8 @@ namespace Chess
                 {
                     _lastClickedTile = null;
                 }
-            }
-                     
-            UpdateBoard();
-            this.Refresh();
-            
+            }                     
+            UpdateBoard();            
         }
 
         private bool isPromotion(Point? _lastClickedTile, int y2)
@@ -271,12 +273,12 @@ namespace Chess
             return false;
         }
 
-        void ReceiveData(Message message)
+        void ReceiveData(MoveMessage message)
         {
             if (InvokeRequired)
             {
                 // Queueing in main thread 
-                Invoke(new Action<Message>(ReceiveData), message); 
+                Invoke(new Action<MoveMessage>(ReceiveData), message); 
             }
             else
             {

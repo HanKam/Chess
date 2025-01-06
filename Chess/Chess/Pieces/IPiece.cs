@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Chess.Pieces
 {
-    enum Colour
+    public enum Colour
     {
         Black, White
     }

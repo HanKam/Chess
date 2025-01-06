@@ -32,9 +32,10 @@
             // 
             // ChessBoardForm
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(700, 450);
+            BackColor = SystemColors.ActiveCaption;
+            ClientSize = new Size(700, 510);
             Name = "ChessBoardForm";
             Text = "Chess Board";
             Load += ChessBoardForm_Load;

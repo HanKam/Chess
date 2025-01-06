@@ -1,18 +1,19 @@
-﻿using System;
+﻿using Chess;
+using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 
-public class NetworkManager
+public class MoveNetworkManager
 {
     private TcpListener _server;
     private TcpClient _client;
     private NetworkStream _stream;
-    private Action<Message> _callback;
+    private Action<MoveMessage> _callback;
     private int _port;
 
-    public NetworkManager(int port, Action<Message> callback)
+    public MoveNetworkManager(int port, Action<MoveMessage> callback)
     {
         _callback = callback;
         _port = port;
@@ -28,13 +29,18 @@ public class NetworkManager
 
     public void WaitForConnection()
     {
+        Thread listenerThread = new Thread(() =>
+        {
+            _server = new TcpListener(IPAddress.Any, _port);
+            _server.Start();
+            _client = _server.AcceptTcpClient();
+            _stream = _client.GetStream();
+            Thread receiveThread = new Thread(ReceiveData);
+            receiveThread.Start();
+        });
 
-        _server = new TcpListener(IPAddress.Any, _port);
-        _server.Start();
-        _client = _server.AcceptTcpClient();
-        _stream = _client.GetStream();
-        Thread receiveThread = new Thread(ReceiveData);
-        receiveThread.Start();
+        // Waiting for a client to join
+        listenerThread.Start();
     }
 
     public void SendData(string message)
@@ -44,7 +50,7 @@ public class NetworkManager
     }
 
     private void ReceiveData()
-    {
+    {     
         byte[] buffer = new byte[1024];
         while (true)
         {
@@ -59,8 +65,9 @@ public class NetworkManager
 
     private void HandleMessage(string message)
     {
-        _callback.Invoke(Message.Deserialize(message));
-
+        MoveMessage moveMessage = new MoveMessage();
+        moveMessage.Deserialize(message);
+        _callback.Invoke(moveMessage);
     }
 
     public void Close()

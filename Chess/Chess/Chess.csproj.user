@@ -4,6 +4,24 @@
     <Compile Update="ChessBoardForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="HostForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="JoinRoomForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="MainMenuForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="MultiplayerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="StartForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="WaitForConnectionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="Properties\Resources.resx">

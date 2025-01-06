@@ -32,11 +32,18 @@ namespace Chess
             _history = new MovesHistory();
             _playerOnMove = Colour.White;
             _playerColour = playerColour;
+
+            Console.WriteLine("Game " + _playerColour.ToString() + _playerOnMove.ToString());
+        }
+
+        public PlayerColour getPlayerColour()
+        {
+            return _playerColour;
         }
 
         internal bool TryToMovePieceNetwork(int x1, int y1, int x2, int y2, IPiece piece)
         {
-            if (!PlayerCompatible())
+            if (PlayerCompatible())
                 return false;
             
             bool success = TryToMovePiece(x1, y1, x2, y2);
@@ -49,7 +56,7 @@ namespace Chess
         }
         internal bool TryToMovePieceGUI(int x1, int y1, int x2, int y2)
         {
-            if (PlayerCompatible())
+            if (!PlayerCompatible())
                 return false;
             return TryToMovePiece(x1,y1,x2,y2);
         }
@@ -76,7 +83,7 @@ namespace Chess
 
         internal bool TryToPromotePawnGUI(int x1, int y1, int x2, int y2, IPiece piece)
         {
-            if (PlayerCompatible())
+            if (!PlayerCompatible())
                 return false;
             bool success = TryToMovePiece(x1, y1, x2, y2);
             if (success)
