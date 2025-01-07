@@ -43,19 +43,20 @@
             btnRefresh.Anchor = AnchorStyles.None;
             btnRefresh.BackColor = Color.DarkSeaGreen;
             btnRefresh.Font = new Font("Segoe UI", 15F);
-            btnRefresh.Location = new Point(116, 3);
+            btnRefresh.Location = new Point(112, 9);
             btnRefresh.Name = "btnRefresh";
             btnRefresh.Size = new Size(158, 41);
             btnRefresh.TabIndex = 1;
             btnRefresh.Text = "Odśwież";
             btnRefresh.UseVisualStyleBackColor = false;
+            btnRefresh.Click += btnRefresh_Click;
             // 
             // label1
             // 
             label1.Anchor = AnchorStyles.None;
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 32F);
-            label1.Location = new Point(38, 37);
+            label1.Location = new Point(30, 54);
             label1.Name = "label1";
             label1.Size = new Size(723, 60);
             label1.TabIndex = 2;
@@ -75,7 +76,7 @@
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 30F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 11.7777777F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 58.22222F));
-            tableLayoutPanel1.Size = new Size(800, 450);
+            tableLayoutPanel1.Size = new Size(784, 561);
             tableLayoutPanel1.TabIndex = 0;
             // 
             // tableLayoutPanel2
@@ -86,12 +87,12 @@
             tableLayoutPanel2.Controls.Add(btnRefresh, 0, 0);
             tableLayoutPanel2.Controls.Add(btnBack, 1, 0);
             tableLayoutPanel2.Dock = DockStyle.Fill;
-            tableLayoutPanel2.Location = new Point(3, 138);
+            tableLayoutPanel2.Location = new Point(3, 171);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
             tableLayoutPanel2.RowCount = 1;
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel2.Size = new Size(794, 47);
+            tableLayoutPanel2.Size = new Size(778, 60);
             tableLayoutPanel2.TabIndex = 3;
             // 
             // btnBack
@@ -99,12 +100,13 @@
             btnBack.Anchor = AnchorStyles.None;
             btnBack.BackColor = Color.Khaki;
             btnBack.Font = new Font("Segoe UI", 15F);
-            btnBack.Location = new Point(513, 3);
+            btnBack.Location = new Point(501, 9);
             btnBack.Name = "btnBack";
             btnBack.Size = new Size(158, 41);
             btnBack.TabIndex = 2;
             btnBack.Text = "Wróć";
             btnBack.UseVisualStyleBackColor = false;
+            btnBack.Click += btnBack_Click;
             // 
             // roomList
             // 
@@ -113,9 +115,9 @@
             roomList.Font = new Font("Segoe UI", 15F);
             roomList.FormattingEnabled = true;
             roomList.ItemHeight = 28;
-            roomList.Location = new Point(3, 191);
+            roomList.Location = new Point(3, 237);
             roomList.Name = "roomList";
-            roomList.Size = new Size(794, 256);
+            roomList.Size = new Size(778, 321);
             roomList.TabIndex = 0;
             roomList.DoubleClick += roomList_DubleClick;
             // 
@@ -124,7 +126,7 @@
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(784, 561);
             Controls.Add(tableLayoutPanel1);
             Name = "JoinRoomForm";
             Text = "JoinRoomForm";

@@ -2,6 +2,7 @@ using Chess.Pieces;
 using System;
 using System.Drawing;
 using System.Net;
+using static Chess.Game;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace Chess
@@ -10,38 +11,48 @@ namespace Chess
     {
 
         private Panel[,] _chessBoardPanels;
-        private Panel _promotionPanel;
         private const int _tileSize = 50;
         private Point? _lastClickedTile;
         private Point? _promoteTo;
         private Game _game;
         private MoveNetworkManager _moveNetworkManager;
+        private WaitForConnectionForm _parentForm;
+        private ConnectionType _connectionType;
 
-        
+
         public enum ConnectionType
         {
-            Host,
-            Client
+            Host, Client
         }
+        
 
-        public ChessBoardForm(ConnectionType connectionType, Colour colour, IPAddress ipAddress = null)
+        public ChessBoardForm(ConnectionType connectionType, Colour colour, int timeMove, int timeAdd, WaitForConnectionForm parentForm = null, IPAddress ipAddress = null)
         {
             InitializeComponent();
-            
-            _moveNetworkManager = new MoveNetworkManager(6942, ReceiveData);
 
-            if (connectionType == ConnectionType.Host)
+            _moveNetworkManager = new MoveNetworkManager(6942, ReceiveData);
+            _connectionType = connectionType;
+
+            if (_connectionType == ConnectionType.Host)
             {
-                _game = new Game(colour == Colour.White ? Game.PlayerColour.White : Game.PlayerColour.Black);
+                _parentForm = parentForm;
+                _game = new Game(timeMove, timeAdd, colour == Colour.White ? Game.PlayerColour.White : Game.PlayerColour.Black);
                 _moveNetworkManager.WaitForConnection();
             }
             else
             {
-                _game = new Game(colour == Colour.White ? Game.PlayerColour.White : Game.PlayerColour.Black);
+                _game = new Game(timeMove, timeAdd, colour == Colour.White ? Game.PlayerColour.White : Game.PlayerColour.Black);
                 _moveNetworkManager.Connect(ipAddress.ToString(), 6942);
             }
         }
 
+        public ChessBoardForm(int timeMove, int timeAdd)
+        {
+            InitializeComponent();
+
+            _game = new Game(timeMove, timeAdd, Game.PlayerColour.Both);
+            btnDraw.Visible = false;
+        }
 
         private void ChessBoardForm_Load(object sender, EventArgs e)
         {
@@ -58,28 +69,12 @@ namespace Chess
             Color colour1 = Color.SaddleBrown;
             Color colour2 = Color.SandyBrown;
 
-            GroupBox board = new GroupBox()
-            {
-                Size = new Size(_tileSize * 8, _tileSize * 8),                
-                Anchor = AnchorStyles.None,
-                Dock = DockStyle.Fill
-            };
-
-            _promotionPanel = new Panel()
-            {
-                Width = _tileSize * 5 + 1,
-                Height = _tileSize + 5,
-                Location = new Point((_tileSize * 8 - _tileSize * 5 - 1)/2, -_tileSize - 8),
-                Visible = false,
-                Anchor = AnchorStyles.None,
-            };
-            board.Controls.Add(_promotionPanel);
-
             for (int x = 0; x < 8; x++)
             {
                 for (int y = 0; y < 8; y++)
                 {
-                    int visibleY = (_game.getPlayerColour() == Game.PlayerColour.Black) ? y : 7 - y;
+                    int visibleY = (_game.GetPlayerColour() == Game.PlayerColour.Black) ? y : 7 - y;
+
                     // creating tiles
                     Panel boardTile = new Panel
                     {
@@ -87,17 +82,21 @@ namespace Chess
                         Location = new Point(_tileSize * x, _tileSize * visibleY),
                         BorderStyle = BorderStyle.FixedSingle,
                         Anchor = AnchorStyles.None
+
                     };
 
                     // creating lambda function to call TileClick with specific x, y 
                     int xCopy = x;
                     int yCopy = y;
                     boardTile.Click += (sender, eventArgs) => TileClick(sender, eventArgs, xCopy, yCopy);
-                    board.Controls.Add(boardTile);
+                    boardPanel.Controls.Add(boardTile);
                     _chessBoardPanels[x, y] = boardTile;
                 }
             }
-            Controls.Add(board);
+
+            Controls.Add(boardPanel);
+            boardPanel.BringToFront();
+
             UpdateBoard();
         }
         private void UpdateBoard()
@@ -127,8 +126,8 @@ namespace Chess
                         currentPanel.BackColor = colour1;
                     else currentPanel.BackColor = colour2;
                 }
-            }            
-            ColourPossibleMoves();                            
+            }
+            ColourPossibleMoves();
         }
 
         private void ColourPossibleMoves()
@@ -152,7 +151,7 @@ namespace Chess
         }
 
         private void DrawPromotionPanel()
-        {       
+        {
             Button btnQueen = new Button()
             {
                 BackgroundImage = new Bitmap(TextureHandler.GetPieceTexture(new Queen(_game.GetColourOnMove()).ToString(), _game.GetColourOnMove()), new Size(_tileSize, _tileSize)),
@@ -180,7 +179,7 @@ namespace Chess
                 Location = new Point(_tileSize * 3, 0),
                 Width = _tileSize,
                 Height = _tileSize
-            }; 
+            };
             Button btnCancel = new Button()
             {
                 Text = "Cancel",
@@ -190,11 +189,11 @@ namespace Chess
             };
 
 
-            _promotionPanel.Controls.Add(btnQueen);
-            _promotionPanel.Controls.Add(btnRook);
-            _promotionPanel.Controls.Add(btnBishop);
-            _promotionPanel.Controls.Add(btnKnight);
-            _promotionPanel.Controls.Add(btnCancel);
+            promotionPanel.Controls.Add(btnQueen);
+            promotionPanel.Controls.Add(btnRook);
+            promotionPanel.Controls.Add(btnBishop);
+            promotionPanel.Controls.Add(btnKnight);
+            promotionPanel.Controls.Add(btnCancel);
 
             // Przypisujemy zdarzenia do przycisków
             btnQueen.Click += (sender, e) => PromotePawn(new Queen(_game.GetColourOnMove()));
@@ -203,64 +202,73 @@ namespace Chess
             btnKnight.Click += (sender, e) => PromotePawn(new Knight(_game.GetColourOnMove()));
             btnCancel.Click += (sender, e) => ResetPromotionPanel();
 
-            _promotionPanel.BringToFront();
+            promotionPanel.Visible = false;
+            promotionPanel.BringToFront();
         }
 
         private void PromotePawn(IPiece piece)
         {
             bool success = _game.TryToPromotePawnGUI(_lastClickedTile.Value.X, _lastClickedTile.Value.Y, _promoteTo.Value.X, _promoteTo.Value.Y, piece);
-            if (success)
+            if (success && _game.GetPlayerColour() != Game.PlayerColour.Both)
             {
                 _moveNetworkManager.SendData(new MoveMessage(_lastClickedTile.Value.X, _lastClickedTile.Value.Y, _promoteTo.Value.X, _promoteTo.Value.Y, piece.ToString()).Serialize());
             }
+
             _lastClickedTile = null;
 
             ResetPromotionPanel();
         }
 
+
         private void ResetPromotionPanel()
         {
-            _promotionPanel.Visible = false;
+            promotionPanel.Visible = false;
 
             UpdateBoard();
+            EndGameMaybe();
         }
 
         void TileClick(object sender, EventArgs e, int x, int y)
         {
             Panel clickedPanel = sender as Panel;
-            _promotionPanel.Visible = false;
+            promotionPanel.Visible = false;
 
             if (_lastClickedTile != null && _game.IsMovePossible(_lastClickedTile.Value.X, _lastClickedTile.Value.Y, x, y))
             {
+                btnDraw.BackColor = Color.Khaki;
+                btnDraw.Text = "Zaproponuj remis";
+
                 if (isPromotion(_lastClickedTile, y))
                 {
-                    _promotionPanel.Visible = true;
+                    promotionPanel.Visible = true;
                     _promoteTo = new Point(x, y);
                     return;
                 }
 
-                bool success = _game.TryToMovePieceGUI(_lastClickedTile.Value.X, _lastClickedTile.Value.Y, x, y);                
+                bool success = _game.TryToMovePieceGUI(_lastClickedTile.Value.X, _lastClickedTile.Value.Y, x, y);
 
-                if (success)
+                if (success && _game.GetPlayerColour() != Game.PlayerColour.Both)
                 {
                     _moveNetworkManager.SendData(new MoveMessage(_lastClickedTile.Value.X, _lastClickedTile.Value.Y, x, y,
                                             _game.GetField(x, y).ToString()).Serialize());
                 }
+                
                 _lastClickedTile = null;
             }
             else
             {
-                if (_game.GetField(x,y) != null)
+                if (_game.GetField(x, y) != null)
                 {
                     _lastClickedTile = new Point(x, y);
-                    
+
                 }
                 else
                 {
                     _lastClickedTile = null;
                 }
-            }                     
-            UpdateBoard();            
+            }
+            UpdateBoard();
+            EndGameMaybe();
         }
 
         private bool isPromotion(Point? _lastClickedTile, int y2)
@@ -278,39 +286,121 @@ namespace Chess
             if (InvokeRequired)
             {
                 // Queueing in main thread 
-                Invoke(new Action<MoveMessage>(ReceiveData), message); 
+                Invoke(new Action<MoveMessage>(ReceiveData), message);
             }
             else
             {
+                if(message.IsResignation())
+                {
+                    EndGame(Game.GameResult.Win, "Przeciwnik(czka) siê podda³(a).");
+                    return;
+                }
+                if(message.IsDrawProposal())
+                {
+                    btnDraw.BackColor = Color.DeepSkyBlue;
+                    btnDraw.Text = "Przyjmujê remis";
+                    return;
+                }
+                if(message.IsDrawAccepted())
+                {
+                    EndGame(Game.GameResult.Draw, "Remis za porozumieniem stron.");
+                    return;
+                }
+                
+                
                 // In main thread
                 IPiece piece;
                 Colour colour = _game.GetField(message.oldX, message.oldY).GetColour();
 
                 switch (message.piece)
                 {
-                    case "P": 
+                    case "P":
                         piece = new Pawn(colour); break;
                     case "R":
                         piece = new Rook(colour); break;
-                    case "B": 
+                    case "B":
                         piece = new Bishop(colour); break;
                     case "N":
                         piece = new Knight(colour); break;
-                    case "Q": 
+                    case "Q":
                         piece = new Queen(colour); break;
                     case "K":
                         piece = new King(colour); break;
-                    default: 
+                    default:
                         piece = new Pawn(colour); break;
                 }
 
-                
+
                 Console.Out.WriteLine(message.Serialize());
-                
+
                 _game.TryToMovePieceNetwork(message.oldX, message.oldY, message.newX, message.newY, piece);
-                _lastClickedTile = null;    
+                
+                _lastClickedTile = null;
+
                 UpdateBoard();
+                EndGameMaybe();
             }
+        }
+
+        private void EndGameMaybe()
+        {
+            KeyValuePair<GameResult, string> result = _game.IsEndGame();
+            if(result.Key != GameResult.None)
+            {
+                EndGame(result.Key, result.Value);
+            }
+        }
+
+        private void btnGiveUp_Click(object sender, EventArgs e)
+        {         
+            if(_game.GetPlayerColour() != Game.PlayerColour.Both)
+            {
+                _moveNetworkManager.SendData(MoveMessage.RESIGNATION.Serialize());
+            }
+            EndGame(Game.GameResult.Lost, "Podda³eœ(³aœ) siê! Twój przeciwnik wygra³(a)!");
+        }
+
+
+        private void btnDraw_Click(object sender, EventArgs e)
+        {
+            if(btnDraw.BackColor == Color.DeepSkyBlue) 
+            {
+                _moveNetworkManager.SendData(MoveMessage.DRAWACCEPTED.Serialize());
+                EndGame(Game.GameResult.Draw, "Remis za porozumieniem stron.");
+                return;
+            }
+            
+            MessageBox.Show("Do Twojego przeciwnika zosta³a wys³ana wiadomoœæ o propozycji remisu.", "PROPOZYCJA REMISU", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            if (_game.GetPlayerColour() != Game.PlayerColour.Both)
+            {
+                _moveNetworkManager.SendData(MoveMessage.DRAWPROPOSAL.Serialize());
+            }
+        }
+
+        private void EndGame(Game.GameResult gameResult, string reason)
+        {
+            string result = "";
+            switch (gameResult)
+            {
+                case Game.GameResult.Lost: result = "Przegrana!"; break;
+                case Game.GameResult.Win: result = "Wygrana!"; break;
+                case Game.GameResult.Draw: result = "Remis!"; break;
+
+            }
+
+            MessageBox.Show(reason, "Koniec gry! " + result, MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            this.Close();
+            if (_parentForm != null)
+            {
+                _parentForm.Close();
+            }
+
+            if(_moveNetworkManager != null)
+            {
+                _moveNetworkManager.Close();
+            }           
         }
     }
 }

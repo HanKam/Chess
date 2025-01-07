@@ -38,14 +38,14 @@
             // 
             // layoutMultiplayerPanel
             // 
+            layoutMultiplayerPanel.Anchor = AnchorStyles.None;
             layoutMultiplayerPanel.ColumnCount = 1;
             layoutMultiplayerPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             layoutMultiplayerPanel.Controls.Add(btnBack, 0, 3);
             layoutMultiplayerPanel.Controls.Add(btnMultiJoin, 0, 2);
             layoutMultiplayerPanel.Controls.Add(label1, 0, 0);
             layoutMultiplayerPanel.Controls.Add(btnMultiHost, 0, 1);
-            layoutMultiplayerPanel.Dock = DockStyle.Fill;
-            layoutMultiplayerPanel.Location = new Point(0, 0);
+            layoutMultiplayerPanel.Location = new Point(-8, 55);
             layoutMultiplayerPanel.Name = "layoutMultiplayerPanel";
             layoutMultiplayerPanel.RowCount = 4;
             layoutMultiplayerPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 21.0526314F));
@@ -110,7 +110,7 @@
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(784, 561);
             Controls.Add(layoutMultiplayerPanel);
             Name = "MultiplayerForm";
             Text = "MultiplayerForm";

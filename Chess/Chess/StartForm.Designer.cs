@@ -38,14 +38,14 @@
             // 
             // layoutStartPanel
             // 
+            layoutStartPanel.Anchor = AnchorStyles.None;
             layoutStartPanel.ColumnCount = 1;
             layoutStartPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             layoutStartPanel.Controls.Add(btnBack, 0, 3);
             layoutStartPanel.Controls.Add(btnSingleplayer, 0, 1);
             layoutStartPanel.Controls.Add(btnMultiplayer, 0, 2);
             layoutStartPanel.Controls.Add(label1, 0, 0);
-            layoutStartPanel.Dock = DockStyle.Fill;
-            layoutStartPanel.Location = new Point(0, 0);
+            layoutStartPanel.Location = new Point(-8, 55);
             layoutStartPanel.Name = "layoutStartPanel";
             layoutStartPanel.RowCount = 4;
             layoutStartPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 21.0526314F));
@@ -111,11 +111,10 @@
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(784, 561);
             Controls.Add(layoutStartPanel);
             Name = "StartForm";
             Text = "StartForm";
-            Load += StartForm_Load;
             layoutStartPanel.ResumeLayout(false);
             layoutStartPanel.PerformLayout();
             ResumeLayout(false);

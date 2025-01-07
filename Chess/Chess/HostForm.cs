@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -44,14 +45,14 @@ namespace Chess
                 "najprzystojniejszych szachistów",
                 "najpiękniejszych szachistek",
                 "szeroko rozumianych osób wariackich",
-                "przyjaciół myszki Miki",
+                "przyjaciół Myszki Miki",
                 "miłośników kotów",
                 "wzajemnej adoracji",
                 "maniaków szachowych",
                 "wielbicieli gier intelektualnych",
                 "rannych ptaszków",
                 "nocnych marków",
-                "popołudionych leniwców",
+                "popołudniowych leniwców",
                 "jesieniar i jesieniarzy",
                 "posiadaczy drogiego samochodu",
                 "ludzi preferujących kolor zielony",
@@ -88,21 +89,27 @@ namespace Chess
                 }
             }
 
-            WaitForConnectionForm multiplayerWaitForm = new WaitForConnectionForm(roomName, hostColour);
+            int timeMove = (int)((minTimerMoves.Value * 60) + secTimerMoves.Value);
+            int timeAdd = (int)((minTimerAdd.Value * 60) + secTimerAdd.Value);
+            
 
-            multiplayerWaitForm.TopLevel = false;
-            multiplayerWaitForm.FormBorderStyle = FormBorderStyle.None;
-            multiplayerWaitForm.Anchor = AnchorStyles.None;
+            WaitForConnectionForm multiWaitForm = new WaitForConnectionForm(roomName, hostColour, timeMove, timeAdd);
 
-            this.Controls.Add(multiplayerWaitForm);
 
-            multiplayerWaitForm.BringToFront();
-            multiplayerWaitForm.Show();
+            multiWaitForm.TopLevel = false;
+            multiWaitForm.FormBorderStyle = FormBorderStyle.None;
+            multiWaitForm.Anchor = AnchorStyles.None;
+
+            this.Controls.Add(multiWaitForm);
+
+            multiWaitForm.BringToFront();
+            multiWaitForm.Show();
         }
 
         private void btnBack_Click(object sender, EventArgs e)
         {
             this.Close();
         }
+
     }
 }

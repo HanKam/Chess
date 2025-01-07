@@ -19,6 +19,7 @@ namespace Chess
             this.piece = piece;
             this.from = from;
             this.to = to;
+            // TODO PROMOTION INFO
         }
         public override string ToString()
         {

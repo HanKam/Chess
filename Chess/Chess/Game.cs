@@ -10,17 +10,22 @@ namespace Chess
 {
     internal class Game
     {
-        ChessBoard _chessBoard;
-        MovesHistory _history;
-        Colour _playerOnMove;
-        PlayerColour _playerColour;
+        private ChessBoard _chessBoard;
+        private MovesHistory _history;
+        private Colour _playerOnMove;
+        private PlayerColour _playerColour;
 
         public enum PlayerColour
         {
             White, Black, Both
         }
 
-        public Game(PlayerColour playerColour)
+        public enum GameResult
+        {
+            Draw, Win, Lost, None
+        }
+
+        public Game(int timeMove, int timeAdd, PlayerColour playerColour)
         {
             NewGame(playerColour);
         }
@@ -31,12 +36,10 @@ namespace Chess
 
             _history = new MovesHistory();
             _playerOnMove = Colour.White;
-            _playerColour = playerColour;
-
-            Console.WriteLine("Game " + _playerColour.ToString() + _playerOnMove.ToString());
+            _playerColour = playerColour;            
         }
 
-        public PlayerColour getPlayerColour()
+        public PlayerColour GetPlayerColour()
         {
             return _playerColour;
         }
@@ -115,6 +118,30 @@ namespace Chess
                 return false;
 
             return isNoMovePossible();
+        }
+        internal KeyValuePair<GameResult, string> IsEndGame()
+        {
+            if (IsCheckmate())
+            {
+                //Singleplayer
+                if(_playerColour == PlayerColour.Both)
+                    return new KeyValuePair<GameResult, string>(GameResult.Win, "Szach-mat - wygrały " + (_playerOnMove == Colour.White ? "czarne." : "białe."));
+                if(_playerColour == PlayerColour.White)
+                {
+                    if(_playerOnMove == Colour.White)
+                        return new KeyValuePair<GameResult, string>(GameResult.Lost, "Szach-mat - wygrały czarne.");
+                    return new KeyValuePair<GameResult, string>(GameResult.Win, "Szach-mat - wygrały białe.");
+                }
+                if(_playerOnMove == Colour.White)
+                    return new KeyValuePair<GameResult, string>(GameResult.Win, "Szach-mat - wygrały czarne.");
+                return new KeyValuePair<GameResult, string>(GameResult.Lost, "Szach-mat - wygrały białe.");
+            }
+            if (IsStalemate())
+            {
+                return new KeyValuePair<GameResult, string>(GameResult.Draw, "Pat - mamy remis.");
+            }
+
+            return new KeyValuePair<GameResult, string>(GameResult.None, string.Empty);
         }
 
         internal bool PlayerCompatible() 

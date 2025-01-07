@@ -10,6 +10,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Timer = System.Windows.Forms.Timer;
 
 namespace Chess
 {
@@ -17,18 +18,27 @@ namespace Chess
     {
         private RoomNetworkManagerClient _roomClient;
         private List<KeyValuePair<IPAddress, RoomMessage>> _roomList;
-        private Colour _colour;
-        private IPAddress _ipAddress;
+        private KeyValuePair<IPAddress, RoomMessage> _item;
+        private Timer _timer;
 
 
         public JoinRoomForm()
         {
             InitializeComponent();
+
+            this._timer = new Timer();
+            this._timer.Interval = 1500; // 3 sekundy
+            this._timer.Tick += Timer_Tick;            
         }
         private void JoinRoomForm_Load(object sender, EventArgs e)
         {
-            _roomClient = new RoomNetworkManagerClient();
-            _roomClient.StartClient(UpdateRoomList,HandleReady);
+            btnRefresh.Enabled = false;
+            btnBack.Enabled = false;
+
+            this._timer.Start();
+
+            this._roomClient = new RoomNetworkManagerClient();
+            this._roomClient.StartClient(UpdateRoomList, HandleReady);
         }
 
 
@@ -36,13 +46,34 @@ namespace Chess
         {
             ListBox list = (ListBox)sender;
             int item = list.SelectedIndex;
+            _item = this._roomList[item];
 
-            _ipAddress = _roomList[item].Key;
-            _colour = _roomList[item].Value.playerColour == Colour.White ? Colour.Black : Colour.White;
-
-
-            _roomClient.TryJoinRoom(_ipAddress);
+            this._roomClient.TryJoinRoom(this._item.Key);
         }
+
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            btnRefresh.Enabled = false;
+            btnBack.Enabled = false; 
+            
+            this._timer.Start();
+
+            this._roomClient.SendGetRooms();
+        }
+
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            this._timer.Stop();
+
+            btnRefresh.Enabled = true;
+            btnBack.Enabled = true;
+        }
+
         private void UpdateRoomList(List<KeyValuePair<IPAddress, RoomMessage>> list)
         {
             if (InvokeRequired)
@@ -52,6 +83,7 @@ namespace Chess
             }
             else
             {
+                this.roomList.Items.Clear();
                 foreach (var item in list)
                 {
                     string itemStr = ItemToString(item);
@@ -59,7 +91,7 @@ namespace Chess
                     this.roomList.Items.Add(itemStr);
                 }
 
-                _roomList = list;
+                this._roomList = list;
                 roomList.Update();
             }
 
@@ -69,10 +101,13 @@ namespace Chess
             RoomMessage roomMessage = item.Value;
             string roomName = roomMessage.roomName;
             string hostColour = roomMessage.playerColour == Pieces.Colour.White ? "W" : "B";
+            string timeMove = roomMessage.timeMove / 60 + ":" + roomMessage.timeMove % 60;
+            string timeAdd = roomMessage.timeAdd / 60 + ":" + roomMessage.timeAdd % 60;
+
             string ipAddress = item.Key.ToString();
 
 
-            return roomName + " " + hostColour + " " + ipAddress;
+            return roomName + "; " + hostColour + "; " + timeMove +  "; " + timeAdd + "; " + ipAddress;
         }
 
         private void HandleReady(bool success)
@@ -90,14 +125,16 @@ namespace Chess
                     return;
                 }
 
-                ChessBoardForm chessBoardForm = new ChessBoardForm(ChessBoardForm.ConnectionType.Client, _colour, _ipAddress);
+                Colour colour = _item.Value.playerColour == Pieces.Colour.White ? Colour.Black : Colour.White;
+                ChessBoardForm chessBoardForm = new ChessBoardForm(ChessBoardForm.ConnectionType.Client, colour, _item.Value.timeMove, _item.Value.timeAdd, null, _item.Key);
 
                 chessBoardForm.TopLevel = false;
                 chessBoardForm.FormBorderStyle = FormBorderStyle.None;
                 chessBoardForm.Anchor = AnchorStyles.None;
 
-                this.Controls.Clear();
                 this.Controls.Add(chessBoardForm);
+
+                chessBoardForm.BringToFront();
                 chessBoardForm.Show();
             }
         }

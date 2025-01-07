@@ -96,7 +96,7 @@
             layoutMainMenu.Controls.Add(btnStart, 0, 1);
             layoutMainMenu.Controls.Add(btnOption, 0, 2);
             layoutMainMenu.Controls.Add(btnExit, 0, 3);
-            layoutMainMenu.Location = new Point(0, 0);
+            layoutMainMenu.Location = new Point(-8, 55);
             layoutMainMenu.Name = "layoutMainMenu";
             layoutMainMenu.RowCount = 4;
             layoutMainMenu.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
@@ -111,7 +111,7 @@
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(784, 561);
             Controls.Add(layoutMainMenu);
             Name = "MainMenuForm";
             Text = "MainMenuForm";

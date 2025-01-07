@@ -33,6 +33,11 @@ namespace Chess
             Thread sendRequestThread = new Thread(new ThreadStart(SendRequest));
             sendRequestThread.Start();
         }
+        public void SendGetRooms()
+        {
+            Thread sendRequestThread = new Thread(new ThreadStart(SendRequest));
+            sendRequestThread.Start();
+        }
 
         public void TryJoinRoom(IPAddress ipAddress)
         {

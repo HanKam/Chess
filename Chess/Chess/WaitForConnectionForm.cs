@@ -16,27 +16,33 @@ namespace Chess
     {
         private string _roomName;
         private Colour _colour;
+        private int _timeMove;
+        private int _timeAdd;
         private RoomNetworkManagerServer _roomServer;
-        private MoveNetworkManager _moveServer;
 
-        public WaitForConnectionForm(string roomName, Colour colour)
+        public WaitForConnectionForm(string roomName, Colour colour, int timeMove, int timeAdd)
         {
             InitializeComponent();
 
-            _roomName = roomName;
-            _colour = colour;
+            this._roomName = roomName;
+            this._colour = colour;
+            this._timeMove = timeMove;
+            this._timeAdd = timeAdd;
         }
 
         private void btnBack_Click(object sender, EventArgs e)
         {
-            
+            this._roomServer.StopServer();
+
+            Thread.Sleep(205);
+
             this.Close();
         }
 
         private void WaitForConnectionForm_Load(object sender, EventArgs e)
         {
-            _roomServer = new RoomNetworkManagerServer(_roomName, _colour, SwitchToChessBoardForm);
-            _roomServer.StartServer();
+            this._roomServer = new RoomNetworkManagerServer(this._roomName, this._colour, this._timeMove, this._timeAdd, SwitchToChessBoardForm);
+            this._roomServer.StartServer();
         }
         private void SwitchToChessBoardForm()
         {
@@ -47,17 +53,19 @@ namespace Chess
             }
             else
             {
-                ChessBoardForm chessBoardForm = new ChessBoardForm(ChessBoardForm.ConnectionType.Host, _colour);
+                ChessBoardForm chessBoardForm = new ChessBoardForm(ChessBoardForm.ConnectionType.Host, this._colour, this._timeMove, this._timeAdd, this);
 
                 chessBoardForm.TopLevel = false;
                 chessBoardForm.FormBorderStyle = FormBorderStyle.None;
                 chessBoardForm.Anchor = AnchorStyles.None;
 
-                this.Controls.Clear();
+                
                 this.Controls.Add(chessBoardForm);
+
+                chessBoardForm.BringToFront();
                 chessBoardForm.Show();
 
-                _roomServer.SendReady();
+                this._roomServer.SendReady();
             }
         }
     }

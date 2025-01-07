@@ -16,33 +16,49 @@ namespace Chess
         private UdpClient _udpServer;
         private IPEndPoint _endPoint;
         private Action _onJoinCallback;
+        private CancellationTokenSource _cancellationTokenSource;
 
         public string roomName { get; set; }
         public Colour playerColour { get; set; }
 
-        public RoomNetworkManagerServer(string roomName, Colour playerColour, Action onJoinCallback)
+        private int _timeMove;
+        private int _timeAdd;
+
+        public RoomNetworkManagerServer(string roomName, Colour playerColour, int timeMove, int timeAdd, Action onJoinCallback)
         {
             _udpServer = new UdpClient();
             _endPoint = new IPEndPoint(IPAddress.Any, Port);
             this.roomName = roomName;
             this.playerColour = playerColour;
+            this._timeMove = timeMove;
+            this._timeAdd = timeAdd;
+
             this._onJoinCallback = onJoinCallback; 
         }
 
         
         public void StartServer()
         {
-            Thread listeningThread = new Thread(new ThreadStart(ListenForRequests));
+            _cancellationTokenSource = new CancellationTokenSource();
+            var token = _cancellationTokenSource.Token;
+
+            Thread listeningThread = new Thread(() => ListenForRequests(token));
             listeningThread.Start();
+        }
+        public void StopServer()
+        {
+            _cancellationTokenSource.Cancel();
+
         }
 
         // Listening and answering
-        private void ListenForRequests()
+        private void ListenForRequests(CancellationToken cancellationToken)
         {
             _udpServer.EnableBroadcast = true;
             _udpServer.Client.Bind(_endPoint);
+            _udpServer.Client.ReceiveTimeout = 200;
 
-            while (true)
+            while (!cancellationToken.IsCancellationRequested)
             {
                 try
                 {
@@ -60,16 +76,23 @@ namespace Chess
 
                     if (request == "JOIN_ROOM")
                     {
-                        _onJoinCallback.Invoke();                                        
+                        _onJoinCallback.Invoke();
+                        _udpServer.Close();
 
                         return;
                     }
+                }
+                catch (SocketException)
+                {
+                    //Ignored - timeout                    
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine("Error while listening: " + ex.Message);
                 }
             }
+
+            _udpServer.Close();
         }
 
         public void SendReady()
@@ -80,7 +103,7 @@ namespace Chess
 
         private string GetRoomResponse()
         {
-            RoomMessage roomMessage = new RoomMessage(roomName, playerColour);
+            RoomMessage roomMessage = new RoomMessage(roomName, playerColour, _timeMove, _timeAdd) ;
             return roomMessage.Serialize();
         }
 

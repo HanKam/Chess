@@ -54,11 +54,19 @@ public class MoveNetworkManager
         byte[] buffer = new byte[1024];
         while (true)
         {
-            int bytesRead = _stream.Read(buffer, 0, buffer.Length);
-            if (bytesRead > 0)
+            try
             {
-                string message = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-                HandleMessage(message);
+                int bytesRead = _stream.Read(buffer, 0, buffer.Length);
+                if (bytesRead > 0)
+                {
+                    string message = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+                    HandleMessage(message);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Ignored
+                return;
             }
         }
     }
@@ -72,8 +80,12 @@ public class MoveNetworkManager
 
     public void Close()
     {
+        
         _stream.Close();
         _client.Close();
-        _server.Stop();
+        if(_server != null)
+        {
+            _server.Stop();
+        }        
     }
 }

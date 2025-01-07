@@ -19,8 +19,16 @@ namespace Chess
 
         private void btnSingleplayer_Click(object sender, EventArgs e)
         {
-            // TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            //ChessBoardForm chessBoardForm = new ChessBoardForm();
+            SingleplayerForm singleplayerForm = new SingleplayerForm();
+
+            singleplayerForm.TopLevel = false;
+            singleplayerForm.FormBorderStyle = FormBorderStyle.None;
+            singleplayerForm.Anchor = AnchorStyles.None;
+
+            this.Controls.Add(singleplayerForm);
+
+            singleplayerForm.BringToFront();
+            singleplayerForm.Show();
         }
 
         private void btnMultiplayer_Click(object sender, EventArgs e)
@@ -40,11 +48,6 @@ namespace Chess
         private void btnBack_Click(object sender, EventArgs e)
         {
             this.Close();
-        }
-
-        private void StartForm_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }

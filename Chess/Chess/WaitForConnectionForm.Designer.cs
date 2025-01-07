@@ -36,12 +36,13 @@
             // 
             // tableLayoutPanel1
             // 
+            tableLayoutPanel1.Anchor = AnchorStyles.None;
+            tableLayoutPanel1.BackColor = SystemColors.ActiveCaption;
             tableLayoutPanel1.ColumnCount = 1;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel1.Controls.Add(btnBack, 0, 1);
             tableLayoutPanel1.Controls.Add(label2, 0, 0);
-            tableLayoutPanel1.Dock = DockStyle.Fill;
-            tableLayoutPanel1.Location = new Point(0, 0);
+            tableLayoutPanel1.Location = new Point(-8, 55);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 2;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
@@ -52,13 +53,14 @@
             // btnBack
             // 
             btnBack.Anchor = AnchorStyles.None;
+            btnBack.BackColor = Color.Khaki;
             btnBack.Font = new Font("Segoe UI", 15F);
             btnBack.Location = new Point(240, 287);
             btnBack.Name = "btnBack";
             btnBack.Size = new Size(320, 100);
             btnBack.TabIndex = 3;
             btnBack.Text = "Przerwij oczekiwanie";
-            btnBack.UseVisualStyleBackColor = true;
+            btnBack.UseVisualStyleBackColor = false;
             btnBack.Click += btnBack_Click;
             // 
             // label2
@@ -76,7 +78,8 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            BackColor = SystemColors.ActiveCaption;
+            ClientSize = new Size(784, 561);
             Controls.Add(tableLayoutPanel1);
             Name = "WaitForConnectionForm";
             Text = "WaitForConnectionForm";

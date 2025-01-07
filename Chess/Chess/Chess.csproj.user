@@ -16,6 +16,9 @@
     <Compile Update="MultiplayerForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="SingleplayerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="StartForm.cs">
       <SubType>Form</SubType>
     </Compile>
