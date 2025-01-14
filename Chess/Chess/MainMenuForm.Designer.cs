@@ -41,7 +41,7 @@
             btnStart.Anchor = AnchorStyles.None;
             btnStart.BackColor = Color.DarkSeaGreen;
             btnStart.Font = new Font("Segoe UI", 15F);
-            btnStart.Location = new Point(240, 118);
+            btnStart.Location = new Point(232, 141);
             btnStart.Name = "btnStart";
             btnStart.Size = new Size(320, 100);
             btnStart.TabIndex = 0;
@@ -54,7 +54,7 @@
             btnExit.Anchor = AnchorStyles.None;
             btnExit.BackColor = Color.RosyBrown;
             btnExit.Font = new Font("Segoe UI", 15F);
-            btnExit.Location = new Point(240, 343);
+            btnExit.Location = new Point(232, 436);
             btnExit.Name = "btnExit";
             btnExit.Size = new Size(320, 100);
             btnExit.TabIndex = 2;
@@ -67,7 +67,7 @@
             labelName.Anchor = AnchorStyles.None;
             labelName.AutoSize = true;
             labelName.Font = new Font("Segoe UI", 35F);
-            labelName.Location = new Point(172, 22);
+            labelName.Location = new Point(164, 25);
             labelName.Name = "labelName";
             labelName.Size = new Size(455, 67);
             labelName.TabIndex = 3;
@@ -79,7 +79,7 @@
             btnOption.Anchor = AnchorStyles.None;
             btnOption.BackColor = Color.Khaki;
             btnOption.Font = new Font("Segoe UI", 15F);
-            btnOption.Location = new Point(240, 230);
+            btnOption.Location = new Point(232, 288);
             btnOption.Name = "btnOption";
             btnOption.Size = new Size(320, 100);
             btnOption.TabIndex = 1;
@@ -96,14 +96,14 @@
             layoutMainMenu.Controls.Add(btnStart, 0, 1);
             layoutMainMenu.Controls.Add(btnOption, 0, 2);
             layoutMainMenu.Controls.Add(btnExit, 0, 3);
-            layoutMainMenu.Location = new Point(-8, 55);
+            layoutMainMenu.Location = new Point(0, 0);
             layoutMainMenu.Name = "layoutMainMenu";
             layoutMainMenu.RowCount = 4;
-            layoutMainMenu.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
-            layoutMainMenu.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
-            layoutMainMenu.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
-            layoutMainMenu.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
-            layoutMainMenu.Size = new Size(800, 450);
+            layoutMainMenu.RowStyles.Add(new RowStyle(SizeType.Percent, 21.0478954F));
+            layoutMainMenu.RowStyles.Add(new RowStyle(SizeType.Percent, 26.3173676F));
+            layoutMainMenu.RowStyles.Add(new RowStyle(SizeType.Percent, 26.3173676F));
+            layoutMainMenu.RowStyles.Add(new RowStyle(SizeType.Percent, 26.3173676F));
+            layoutMainMenu.Size = new Size(784, 561);
             layoutMainMenu.TabIndex = 4;
             // 
             // MainMenuForm

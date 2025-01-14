@@ -134,7 +134,7 @@
             // 
             // tableLayoutPanel2
             // 
-            tableLayoutPanel2.CellBorderStyle = TableLayoutPanelCellBorderStyle.InsetDouble;
+            tableLayoutPanel2.CellBorderStyle = TableLayoutPanelCellBorderStyle.OutsetDouble;
             tableLayoutPanel2.ColumnCount = 4;
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
@@ -308,12 +308,12 @@
             // 
             // label1
             // 
+            label1.Anchor = AnchorStyles.None;
             label1.AutoSize = true;
-            label1.Dock = DockStyle.Fill;
             label1.Font = new Font("Segoe UI", 35F);
-            label1.Location = new Point(3, 0);
+            label1.Location = new Point(251, 53);
             label1.Name = "label1";
-            label1.Size = new Size(778, 174);
+            label1.Size = new Size(281, 67);
             label1.TabIndex = 0;
             label1.Text = "Utwórz grę";
             label1.TextAlign = ContentAlignment.MiddleCenter;

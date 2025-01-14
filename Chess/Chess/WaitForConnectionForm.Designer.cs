@@ -36,18 +36,18 @@
             // 
             // tableLayoutPanel1
             // 
-            tableLayoutPanel1.Anchor = AnchorStyles.None;
             tableLayoutPanel1.BackColor = SystemColors.ActiveCaption;
             tableLayoutPanel1.ColumnCount = 1;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel1.Controls.Add(btnBack, 0, 1);
             tableLayoutPanel1.Controls.Add(label2, 0, 0);
-            tableLayoutPanel1.Location = new Point(-8, 55);
+            tableLayoutPanel1.Dock = DockStyle.Fill;
+            tableLayoutPanel1.Location = new Point(0, 0);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 2;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.Size = new Size(800, 450);
+            tableLayoutPanel1.Size = new Size(784, 561);
             tableLayoutPanel1.TabIndex = 0;
             // 
             // btnBack
@@ -55,7 +55,7 @@
             btnBack.Anchor = AnchorStyles.None;
             btnBack.BackColor = Color.Khaki;
             btnBack.Font = new Font("Segoe UI", 15F);
-            btnBack.Location = new Point(240, 287);
+            btnBack.Location = new Point(232, 370);
             btnBack.Name = "btnBack";
             btnBack.Size = new Size(320, 100);
             btnBack.TabIndex = 3;
@@ -68,7 +68,7 @@
             label2.Anchor = AnchorStyles.None;
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 35F);
-            label2.Location = new Point(98, 79);
+            label2.Location = new Point(90, 106);
             label2.Name = "label2";
             label2.Size = new Size(604, 67);
             label2.TabIndex = 2;

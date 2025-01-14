@@ -101,7 +101,7 @@
             // 
             // tableLayoutPanel2
             // 
-            tableLayoutPanel2.CellBorderStyle = TableLayoutPanelCellBorderStyle.InsetDouble;
+            tableLayoutPanel2.CellBorderStyle = TableLayoutPanelCellBorderStyle.OutsetDouble;
             tableLayoutPanel2.ColumnCount = 2;
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 24.9032249F));
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 75.09677F));
@@ -138,7 +138,7 @@
             // 
             // tableLayoutPanel3
             // 
-            tableLayoutPanel3.CellBorderStyle = TableLayoutPanelCellBorderStyle.InsetDouble;
+            tableLayoutPanel3.CellBorderStyle = TableLayoutPanelCellBorderStyle.OutsetDouble;
             tableLayoutPanel3.ColumnCount = 4;
             tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
             tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
@@ -249,7 +249,7 @@
             // 
             // tableLayoutPanel5
             // 
-            tableLayoutPanel5.CellBorderStyle = TableLayoutPanelCellBorderStyle.InsetDouble;
+            tableLayoutPanel5.CellBorderStyle = TableLayoutPanelCellBorderStyle.OutsetDouble;
             tableLayoutPanel5.ColumnCount = 4;
             tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
             tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));

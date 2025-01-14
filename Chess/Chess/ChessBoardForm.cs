@@ -24,7 +24,7 @@ namespace Chess
         {
             Host, Client
         }
-        
+
 
         public ChessBoardForm(ConnectionType connectionType, Colour colour, int timeMove, int timeAdd, WaitForConnectionForm parentForm = null, IPAddress ipAddress = null)
         {
@@ -252,7 +252,7 @@ namespace Chess
                     _moveNetworkManager.SendData(new MoveMessage(_lastClickedTile.Value.X, _lastClickedTile.Value.Y, x, y,
                                             _game.GetField(x, y).ToString()).Serialize());
                 }
-                
+
                 _lastClickedTile = null;
             }
             else
@@ -290,24 +290,24 @@ namespace Chess
             }
             else
             {
-                if(message.IsResignation())
+                if (message.IsResignation())
                 {
                     EndGame(Game.GameResult.Win, "Przeciwnik(czka) siê podda³(a).");
                     return;
                 }
-                if(message.IsDrawProposal())
+                if (message.IsDrawProposal())
                 {
                     btnDraw.BackColor = Color.DeepSkyBlue;
                     btnDraw.Text = "Przyjmujê remis";
                     return;
                 }
-                if(message.IsDrawAccepted())
+                if (message.IsDrawAccepted())
                 {
                     EndGame(Game.GameResult.Draw, "Remis za porozumieniem stron.");
                     return;
                 }
-                
-                
+
+
                 // In main thread
                 IPiece piece;
                 Colour colour = _game.GetField(message.oldX, message.oldY).GetColour();
@@ -334,7 +334,7 @@ namespace Chess
                 Console.Out.WriteLine(message.Serialize());
 
                 _game.TryToMovePieceNetwork(message.oldX, message.oldY, message.newX, message.newY, piece);
-                
+
                 _lastClickedTile = null;
 
                 UpdateBoard();
@@ -345,15 +345,15 @@ namespace Chess
         private void EndGameMaybe()
         {
             KeyValuePair<GameResult, string> result = _game.IsEndGame();
-            if(result.Key != GameResult.None)
+            if (result.Key != GameResult.None)
             {
                 EndGame(result.Key, result.Value);
             }
         }
 
         private void btnGiveUp_Click(object sender, EventArgs e)
-        {         
-            if(_game.GetPlayerColour() != Game.PlayerColour.Both)
+        {
+            if (_game.GetPlayerColour() != Game.PlayerColour.Both)
             {
                 _moveNetworkManager.SendData(MoveMessage.RESIGNATION.Serialize());
             }
@@ -363,13 +363,13 @@ namespace Chess
 
         private void btnDraw_Click(object sender, EventArgs e)
         {
-            if(btnDraw.BackColor == Color.DeepSkyBlue) 
+            if (btnDraw.BackColor == Color.DeepSkyBlue)
             {
                 _moveNetworkManager.SendData(MoveMessage.DRAWACCEPTED.Serialize());
                 EndGame(Game.GameResult.Draw, "Remis za porozumieniem stron.");
                 return;
             }
-            
+
             MessageBox.Show("Do Twojego przeciwnika zosta³a wys³ana wiadomoœæ o propozycji remisu.", "PROPOZYCJA REMISU", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             if (_game.GetPlayerColour() != Game.PlayerColour.Both)
@@ -397,10 +397,10 @@ namespace Chess
                 _parentForm.Close();
             }
 
-            if(_moveNetworkManager != null)
+            if (_moveNetworkManager != null)
             {
                 _moveNetworkManager.Close();
-            }           
+            }
         }
     }
 }

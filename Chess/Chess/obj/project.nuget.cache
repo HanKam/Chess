@@ -1,8 +1,20 @@
 {
   "version": 2,
-  "dgSpecHash": "IHfqoRw7HBL8Rju+lzjcSJjbX+7JYmruFd7Dxt5IMhia7iz+PI0KZyA0+z9zzkT8YpstESTnsU0LG8bLMfqZsg==",
+  "dgSpecHash": "pc7bjc0VOUVoTEAUtlnJfNVg4RVcYi88IKLHmz4qoY96dBHevaWIYZM/dzkW62iSXeQ6C3AAbw0rYX57fcezFQ==",
   "success": true,
   "projectFilePath": "C:\\1. Hanna\\Studia\\Praca inżynierska\\Kod-github\\Chess\\Chess\\Chess\\Chess.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\Hanna\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
+    "C:\\Users\\Hanna\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
+    "C:\\Users\\Hanna\\.nuget\\packages\\naudio\\2.2.1\\naudio.2.2.1.nupkg.sha512",
+    "C:\\Users\\Hanna\\.nuget\\packages\\naudio.asio\\2.2.1\\naudio.asio.2.2.1.nupkg.sha512",
+    "C:\\Users\\Hanna\\.nuget\\packages\\naudio.core\\2.2.1\\naudio.core.2.2.1.nupkg.sha512",
+    "C:\\Users\\Hanna\\.nuget\\packages\\naudio.midi\\2.2.1\\naudio.midi.2.2.1.nupkg.sha512",
+    "C:\\Users\\Hanna\\.nuget\\packages\\naudio.wasapi\\2.2.1\\naudio.wasapi.2.2.1.nupkg.sha512",
+    "C:\\Users\\Hanna\\.nuget\\packages\\naudio.winforms\\2.2.1\\naudio.winforms.2.2.1.nupkg.sha512",
+    "C:\\Users\\Hanna\\.nuget\\packages\\naudio.winmm\\2.2.1\\naudio.winmm.2.2.1.nupkg.sha512",
+    "C:\\Users\\Hanna\\.nuget\\packages\\system.security.accesscontrol\\4.7.0\\system.security.accesscontrol.4.7.0.nupkg.sha512",
+    "C:\\Users\\Hanna\\.nuget\\packages\\system.security.principal.windows\\4.7.0\\system.security.principal.windows.4.7.0.nupkg.sha512"
+  ],
   "logs": []
 }

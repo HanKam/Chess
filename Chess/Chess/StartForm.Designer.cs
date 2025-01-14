@@ -38,21 +38,21 @@
             // 
             // layoutStartPanel
             // 
-            layoutStartPanel.Anchor = AnchorStyles.None;
             layoutStartPanel.ColumnCount = 1;
             layoutStartPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             layoutStartPanel.Controls.Add(btnBack, 0, 3);
             layoutStartPanel.Controls.Add(btnSingleplayer, 0, 1);
             layoutStartPanel.Controls.Add(btnMultiplayer, 0, 2);
             layoutStartPanel.Controls.Add(label1, 0, 0);
-            layoutStartPanel.Location = new Point(-8, 55);
+            layoutStartPanel.Dock = DockStyle.Fill;
+            layoutStartPanel.Location = new Point(0, 0);
             layoutStartPanel.Name = "layoutStartPanel";
             layoutStartPanel.RowCount = 4;
             layoutStartPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 21.0526314F));
             layoutStartPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 26.31579F));
             layoutStartPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 26.31579F));
             layoutStartPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 26.31579F));
-            layoutStartPanel.Size = new Size(800, 450);
+            layoutStartPanel.Size = new Size(784, 561);
             layoutStartPanel.TabIndex = 0;
             // 
             // btnBack
@@ -60,7 +60,7 @@
             btnBack.Anchor = AnchorStyles.None;
             btnBack.BackColor = Color.Khaki;
             btnBack.Font = new Font("Segoe UI", 15F);
-            btnBack.Location = new Point(240, 340);
+            btnBack.Location = new Point(232, 436);
             btnBack.Name = "btnBack";
             btnBack.Size = new Size(320, 100);
             btnBack.TabIndex = 3;
@@ -73,7 +73,7 @@
             btnSingleplayer.Anchor = AnchorStyles.None;
             btnSingleplayer.BackColor = Color.DarkSeaGreen;
             btnSingleplayer.Font = new Font("Segoe UI", 15F);
-            btnSingleplayer.Location = new Point(240, 103);
+            btnSingleplayer.Location = new Point(232, 141);
             btnSingleplayer.Name = "btnSingleplayer";
             btnSingleplayer.Size = new Size(320, 100);
             btnSingleplayer.TabIndex = 0;
@@ -86,11 +86,11 @@
             btnMultiplayer.Anchor = AnchorStyles.None;
             btnMultiplayer.BackColor = Color.DarkSeaGreen;
             btnMultiplayer.Font = new Font("Segoe UI", 15F);
-            btnMultiplayer.Location = new Point(240, 221);
+            btnMultiplayer.Location = new Point(232, 288);
             btnMultiplayer.Name = "btnMultiplayer";
             btnMultiplayer.Size = new Size(320, 100);
             btnMultiplayer.TabIndex = 1;
-            btnMultiplayer.Text = "Gra wieloosobowa";
+            btnMultiplayer.Text = "Gra dwuosobowa";
             btnMultiplayer.UseVisualStyleBackColor = false;
             btnMultiplayer.Click += btnMultiplayer_Click;
             // 
@@ -99,7 +99,7 @@
             label1.Anchor = AnchorStyles.None;
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 35F);
-            label1.Location = new Point(168, 13);
+            label1.Location = new Point(160, 25);
             label1.Name = "label1";
             label1.Size = new Size(463, 67);
             label1.TabIndex = 2;

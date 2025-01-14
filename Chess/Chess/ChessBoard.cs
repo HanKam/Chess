@@ -144,24 +144,6 @@ namespace Chess
             List<Point> tempPossibleMoves = this.board[x, y].GetPossibleMoves(this, x, y, history);
             return RemoveMovesLeadingToCheck(x, y, tempPossibleMoves, this.board[x, y].GetColour(), history);
             
-        }
-
-        public void PrintBoard()
-        {
-            for (int y = 7; y >= 0; y--)
-            {
-                for (int x = 0; x < 8; x++)
-                {
-                    if (this.board[x, y] != null)
-                    {
-                        Console.Write(this.board[x, y].ToString());
-                        Console.Write(' ');
-                    }
-                    else
-                        Console.Write("- ");
-                }
-                Console.WriteLine();
-            }
-        }
+        }       
     }
 }

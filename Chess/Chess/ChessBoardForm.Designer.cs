@@ -33,15 +33,15 @@
             tableLayoutPanel5 = new TableLayoutPanel();
             timerPlLabel = new Label();
             whoMoveLabel = new Label();
+            btnGiveUp = new Button();
             tableLayoutPanel3 = new TableLayoutPanel();
             timerOpLabel = new Label();
             promotionPanel = new Panel();
+            btnDraw = new Button();
             boardPanel = new Panel();
             tableLayoutPanel4 = new TableLayoutPanel();
             roomNameLabel = new Label();
             historyLabel = new Label();
-            btnGiveUp = new Button();
-            btnDraw = new Button();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             tableLayoutPanel5.SuspendLayout();
@@ -124,6 +124,19 @@
             whoMoveLabel.Text = "Ty Ty!";
             whoMoveLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
+            // btnGiveUp
+            // 
+            btnGiveUp.BackColor = Color.RosyBrown;
+            btnGiveUp.Dock = DockStyle.Fill;
+            btnGiveUp.Font = new Font("Segoe UI", 10F);
+            btnGiveUp.Location = new Point(381, 3);
+            btnGiveUp.Name = "btnGiveUp";
+            btnGiveUp.Size = new Size(104, 56);
+            btnGiveUp.TabIndex = 3;
+            btnGiveUp.Text = "Poddaję się";
+            btnGiveUp.UseVisualStyleBackColor = false;
+            btnGiveUp.Click += btnGiveUp_Click;
+            // 
             // tableLayoutPanel3
             // 
             tableLayoutPanel3.ColumnCount = 3;
@@ -163,6 +176,19 @@
             promotionPanel.Name = "promotionPanel";
             promotionPanel.Size = new Size(264, 55);
             promotionPanel.TabIndex = 1;
+            // 
+            // btnDraw
+            // 
+            btnDraw.BackColor = Color.Khaki;
+            btnDraw.Dock = DockStyle.Fill;
+            btnDraw.Font = new Font("Segoe UI", 10F);
+            btnDraw.Location = new Point(381, 3);
+            btnDraw.Name = "btnDraw";
+            btnDraw.Size = new Size(104, 55);
+            btnDraw.TabIndex = 2;
+            btnDraw.Text = "Zaproponuj remis";
+            btnDraw.UseVisualStyleBackColor = false;
+            btnDraw.Click += btnDraw_Click;
             // 
             // boardPanel
             // 
@@ -212,32 +238,6 @@
             historyLabel.Size = new Size(272, 489);
             historyLabel.TabIndex = 1;
             historyLabel.Text = "ssssssssssss";
-            // 
-            // btnGiveUp
-            // 
-            btnGiveUp.BackColor = Color.RosyBrown;
-            btnGiveUp.Dock = DockStyle.Fill;
-            btnGiveUp.Font = new Font("Segoe UI", 10F);
-            btnGiveUp.Location = new Point(381, 3);
-            btnGiveUp.Name = "btnGiveUp";
-            btnGiveUp.Size = new Size(104, 56);
-            btnGiveUp.TabIndex = 3;
-            btnGiveUp.Text = "Poddaję się";
-            btnGiveUp.UseVisualStyleBackColor = false;
-            btnGiveUp.Click += btnGiveUp_Click;
-            // 
-            // btnDraw
-            // 
-            btnDraw.BackColor = Color.Khaki;
-            btnDraw.Dock = DockStyle.Fill;
-            btnDraw.Font = new Font("Segoe UI", 10F);
-            btnDraw.Location = new Point(381, 3);
-            btnDraw.Name = "btnDraw";
-            btnDraw.Size = new Size(104, 55);
-            btnDraw.TabIndex = 2;
-            btnDraw.Text = "Zaproponuj remis";
-            btnDraw.UseVisualStyleBackColor = false;
-            btnDraw.Click += btnDraw_Click;
             // 
             // ChessBoardForm
             // 

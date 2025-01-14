@@ -43,7 +43,7 @@
             btnRefresh.Anchor = AnchorStyles.None;
             btnRefresh.BackColor = Color.DarkSeaGreen;
             btnRefresh.Font = new Font("Segoe UI", 15F);
-            btnRefresh.Location = new Point(112, 9);
+            btnRefresh.Location = new Point(112, 3);
             btnRefresh.Name = "btnRefresh";
             btnRefresh.Size = new Size(158, 41);
             btnRefresh.TabIndex = 1;
@@ -81,18 +81,18 @@
             // 
             // tableLayoutPanel2
             // 
+            tableLayoutPanel2.Anchor = AnchorStyles.None;
             tableLayoutPanel2.ColumnCount = 2;
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 49.24433F));
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50.75567F));
             tableLayoutPanel2.Controls.Add(btnRefresh, 0, 0);
             tableLayoutPanel2.Controls.Add(btnBack, 1, 0);
-            tableLayoutPanel2.Dock = DockStyle.Fill;
-            tableLayoutPanel2.Location = new Point(3, 171);
+            tableLayoutPanel2.Location = new Point(3, 177);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
             tableLayoutPanel2.RowCount = 1;
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel2.Size = new Size(778, 60);
+            tableLayoutPanel2.Size = new Size(778, 47);
             tableLayoutPanel2.TabIndex = 3;
             // 
             // btnBack
@@ -100,7 +100,7 @@
             btnBack.Anchor = AnchorStyles.None;
             btnBack.BackColor = Color.Khaki;
             btnBack.Font = new Font("Segoe UI", 15F);
-            btnBack.Location = new Point(501, 9);
+            btnBack.Location = new Point(501, 3);
             btnBack.Name = "btnBack";
             btnBack.Size = new Size(158, 41);
             btnBack.TabIndex = 2;
