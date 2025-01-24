@@ -20,6 +20,7 @@ namespace Chess
             {   
                 var audioStream = Properties.Resources.piano_calm;  
                                 
+                // Getting background audio from files
                 byte[] audioData;
                 using (MemoryStream memoryStream = new MemoryStream())
                 {

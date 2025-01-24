@@ -58,7 +58,7 @@
             // btnBack
             // 
             btnBack.Anchor = AnchorStyles.None;
-            btnBack.BackColor = Color.Khaki;
+            btnBack.BackColor = Color.DarkKhaki;
             btnBack.Font = new Font("Segoe UI", 15F);
             btnBack.Location = new Point(232, 436);
             btnBack.Name = "btnBack";
@@ -77,7 +77,7 @@
             btnSingleplayer.Name = "btnSingleplayer";
             btnSingleplayer.Size = new Size(320, 100);
             btnSingleplayer.TabIndex = 0;
-            btnSingleplayer.Text = "Gra jednoosobowa";
+            btnSingleplayer.Text = "Gra lokalna";
             btnSingleplayer.UseVisualStyleBackColor = false;
             btnSingleplayer.Click += btnSingleplayer_Click;
             // 
@@ -90,7 +90,7 @@
             btnMultiplayer.Name = "btnMultiplayer";
             btnMultiplayer.Size = new Size(320, 100);
             btnMultiplayer.TabIndex = 1;
-            btnMultiplayer.Text = "Gra dwuosobowa";
+            btnMultiplayer.Text = "Gra przez sieć";
             btnMultiplayer.UseVisualStyleBackColor = false;
             btnMultiplayer.Click += btnMultiplayer_Click;
             // 

@@ -18,11 +18,9 @@ C:\1. Hanna\Studia\Praca inżynierska\Kod-github\Chess\Chess\Chess\obj\Debug\net
 C:\1. Hanna\Studia\Praca inżynierska\Kod-github\Chess\Chess\Chess\obj\Debug\net8.0-windows\ref\Chess.dll
 C:\1. Hanna\Studia\Praca inżynierska\Kod-github\Chess\Chess\Chess\obj\Debug\net8.0-windows\Chess.MainMenuForm.resources
 C:\1. Hanna\Studia\Praca inżynierska\Kod-github\Chess\Chess\Chess\obj\Debug\net8.0-windows\Chess.StartForm.resources
-C:\1. Hanna\Studia\Praca inżynierska\Kod-github\Chess\Chess\Chess\obj\Debug\net8.0-windows\Chess.MultiplayerForm.resources
 C:\1. Hanna\Studia\Praca inżynierska\Kod-github\Chess\Chess\Chess\obj\Debug\net8.0-windows\Chess.HostForm.resources
 C:\1. Hanna\Studia\Praca inżynierska\Kod-github\Chess\Chess\Chess\obj\Debug\net8.0-windows\Chess.WaitForConnectionForm.resources
 C:\1. Hanna\Studia\Praca inżynierska\Kod-github\Chess\Chess\Chess\obj\Debug\net8.0-windows\Chess.JoinRoomForm.resources
-C:\1. Hanna\Studia\Praca inżynierska\Kod-github\Chess\Chess\Chess\obj\Debug\net8.0-windows\Chess.SingleplayerForm.resources
 C:\1. Hanna\Studia\Praca inżynierska\Kod-github\Chess\Chess\Chess\obj\Debug\net8.0-windows\Chess.OptionsForm.resources
 C:\1. Hanna\Studia\Praca inżynierska\Kod-github\Chess\Chess\Chess\obj\Debug\net8.0-windows\Chess.csproj.AssemblyReference.cache
 C:\1. Hanna\Studia\Praca inżynierska\Kod-github\Chess\Chess\Chess\bin\Debug\net8.0-windows\NAudio.dll
@@ -34,3 +32,5 @@ C:\1. Hanna\Studia\Praca inżynierska\Kod-github\Chess\Chess\Chess\bin\Debug\net
 C:\1. Hanna\Studia\Praca inżynierska\Kod-github\Chess\Chess\Chess\bin\Debug\net8.0-windows\NAudio.WinMM.dll
 C:\1. Hanna\Studia\Praca inżynierska\Kod-github\Chess\Chess\Chess\obj\Debug\net8.0-windows\Chess.csproj.CopyComplete
 C:\1. Hanna\Studia\Praca inżynierska\Kod-github\Chess\Chess\Chess\bin\Debug\net8.0-windows\Resources\piano_calm.wav
+C:\1. Hanna\Studia\Praca inżynierska\Kod-github\Chess\Chess\Chess\obj\Debug\net8.0-windows\Chess.OnlineForm.resources
+C:\1. Hanna\Studia\Praca inżynierska\Kod-github\Chess\Chess\Chess\obj\Debug\net8.0-windows\Chess.SingleForm.resources

@@ -19,7 +19,7 @@ namespace Chess
 
         private void btnSingleplayer_Click(object sender, EventArgs e)
         {
-            SingleplayerForm singleplayerForm = new SingleplayerForm();
+            SingleForm singleplayerForm = new SingleForm();
 
             singleplayerForm.TopLevel = false;
             singleplayerForm.FormBorderStyle = FormBorderStyle.None;
@@ -33,7 +33,7 @@ namespace Chess
 
         private void btnMultiplayer_Click(object sender, EventArgs e)
         {
-            MultiplayerForm multiplayerForm = new MultiplayerForm();
+            OnlineForm multiplayerForm = new OnlineForm();
 
             multiplayerForm.TopLevel = false;
             multiplayerForm.FormBorderStyle = FormBorderStyle.None;

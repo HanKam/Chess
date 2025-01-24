@@ -224,7 +224,7 @@
             // btnBack
             // 
             btnBack.Anchor = AnchorStyles.None;
-            btnBack.BackColor = Color.Khaki;
+            btnBack.BackColor = Color.DarkKhaki;
             btnBack.Font = new Font("Segoe UI", 15F);
             btnBack.Location = new Point(423, 7);
             btnBack.Name = "btnBack";

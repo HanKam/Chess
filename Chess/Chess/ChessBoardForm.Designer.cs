@@ -179,7 +179,7 @@
             // 
             // btnDraw
             // 
-            btnDraw.BackColor = Color.Khaki;
+            btnDraw.BackColor = Color.DarkKhaki;
             btnDraw.Dock = DockStyle.Fill;
             btnDraw.Font = new Font("Segoe UI", 10F);
             btnDraw.Location = new Point(381, 3);
@@ -232,7 +232,7 @@
             historyLabel.AutoSize = true;
             historyLabel.BorderStyle = BorderStyle.FixedSingle;
             historyLabel.Dock = DockStyle.Fill;
-            historyLabel.Font = new Font("Segoe UI", 10F);
+            historyLabel.Font = new Font("Cascadia Mono", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 238);
             historyLabel.Location = new Point(3, 66);
             historyLabel.Name = "historyLabel";
             historyLabel.Size = new Size(272, 489);

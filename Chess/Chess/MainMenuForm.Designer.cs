@@ -67,17 +67,17 @@
             labelName.Anchor = AnchorStyles.None;
             labelName.AutoSize = true;
             labelName.Font = new Font("Segoe UI", 35F);
-            labelName.Location = new Point(164, 25);
+            labelName.Location = new Point(81, 25);
             labelName.Name = "labelName";
-            labelName.Size = new Size(455, 67);
+            labelName.Size = new Size(622, 67);
             labelName.TabIndex = 3;
-            labelName.Text = "SZACHY PO SIECI";
+            labelName.Text = "ROZGRYWKI SZACHOWE";
             labelName.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // btnOption
             // 
             btnOption.Anchor = AnchorStyles.None;
-            btnOption.BackColor = Color.Khaki;
+            btnOption.BackColor = Color.DarkKhaki;
             btnOption.Font = new Font("Segoe UI", 15F);
             btnOption.Location = new Point(232, 288);
             btnOption.Name = "btnOption";
@@ -114,7 +114,7 @@
             ClientSize = new Size(784, 561);
             Controls.Add(layoutMainMenu);
             Name = "MainMenuForm";
-            Text = "MainMenuForm";
+            Text = "Aplikacja do szachowych rozgrywek";
             Load += MainMenuForm_Load;
             layoutMainMenu.ResumeLayout(false);
             layoutMainMenu.PerformLayout();

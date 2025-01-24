@@ -32,6 +32,11 @@ namespace Chess.Pieces
             int step = 0;
             int initialY = 0;
 
+            if (currentPositionY == 0 || currentPositionY == 7)
+            {
+                return tempPossibleMoves;
+            }
+
             if(this._colour == Colour.White)
             {
                 step = 1;

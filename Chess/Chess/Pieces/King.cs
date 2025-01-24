@@ -44,7 +44,7 @@ namespace Chess.Pieces
             }
 
             // castling 
-            if (history.DidPieceMoved(currentPositionX, currentPositionY))
+            if (history.DidPieceMoved(currentPositionX, currentPositionY) || currentPositionX != 4)
                 return tempPossibleMoves;
 
             if (gb.GetField(currentPositionX + 3, currentPositionY) != null && !history.DidPieceMoved(currentPositionX + 3, currentPositionY))

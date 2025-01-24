@@ -1,0 +1,231 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Chess.Properties.Resources" Collapsed="true">
+    <Position X="3" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAADAgQAQABAAAAABEAAAIcAAIAAABAACAAAAIIA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Chess.Pieces.Bishop" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="1" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAAAEAAAAAEAAAQAAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Pieces\Bishop.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Chess.Pieces.King" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="1" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAAAEAAAAAEAAAQAAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Pieces\King.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Chess.Pieces.Knight" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="1" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAAAEAAAAAEAAAQAAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Pieces\Knight.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Chess.Pieces.Pawn" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="1" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAAAEAAAAAEAAAQAAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Pieces\Pawn.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Chess.Pieces.Queen" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="1" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAAAEAAAAAEAAAQAAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Pieces\Queen.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Chess.Pieces.Rook" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="1" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAAAEAAAAAEAAAQAAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Pieces\Rook.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Chess.AudioManager" Collapsed="true">
+    <Position X="12.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAAQAAIAAIAAAAAgAAgAAAAAAAAAAA=</HashCode>
+      <FileName>AudioManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Chess.ChessBoard" Collapsed="true">
+    <Position X="10.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACgAhAAAAAAAAAAACEIAAAAAAAAAIAAAAAAARAA=</HashCode>
+      <FileName>ChessBoard.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Chess.ChessBoardForm" Collapsed="true">
+    <Position X="10.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAIAAQACAAAAgAAACABAACggQAAAAAgEEQEIACACA=</HashCode>
+      <FileName>ChessBoardForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Chess.ChessBoardHelper" Collapsed="true">
+    <Position X="10.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAAAAAAAAAQAAAAABAAAAAgAAAAAAA=</HashCode>
+      <FileName>ChessBoardHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Chess.Game" Collapsed="true">
+    <Position X="10.75" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQiAAgCAAAAABDAAACEAABABiAAABAAAAEAAiACA=</HashCode>
+      <FileName>Game.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Chess.HostForm" Collapsed="true">
+    <Position X="8.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAQAGAAABAQCgGAAAAGgAAAAABAhGAAEAAAACA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Chess.JoinRoomForm" Collapsed="true">
+    <Position X="8.75" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQACAQABAAAACAAAACACAAAABAAAAAAAAAACA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Chess.MainMenuForm" Collapsed="true">
+    <Position X="7.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAgECIAEAAEAACAAAACACAIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MainMenuForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Chess.MoveMessage" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="3" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgACAQAAAEAAAACAAwAAAAAAACBAAAAgAGAAAAAAACA=</HashCode>
+      <FileName>MoveMessage.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="1.19" Collapsed="true" />
+  </Class>
+  <Class Name="Chess.HistoryRecord" Collapsed="true">
+    <Position X="12.75" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAIAAAAAAAAEAAAAAAgAAAAAEAAkEAAAAAAAAAA=</HashCode>
+      <FileName>MovesHistory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Chess.MovesHistory" Collapsed="true">
+    <Position X="12.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAIAAAAAAAAAAAAAAAAAAAACAAAAAAEAAAAAAAgA=</HashCode>
+      <FileName>MovesHistory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Chess.OnlineForm" Collapsed="true">
+    <Position X="8.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACIAAACAAABAAAACgAIACAAAQAABAABAAAAAAAAA=</HashCode>
+      <FileName>OnlineForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Chess.OptionsForm" Collapsed="true">
+    <Position X="7.75" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQACAAABAAAACAAIACAACAAABAgAAAAAAIACg=</HashCode>
+      <FileName>OptionsForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Chess.Program" Collapsed="true">
+    <Position X="3" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Chess.RoomMessage" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAQAAAAAAAAIAAAABAACBAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>RoomMessage.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Chess.RoomNetworkManagerClient" Collapsed="true">
+    <Position X="5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAAAAAAAAAAACACAiAoAAAAIAAQAIAAgA=</HashCode>
+      <FileName>RoomNetworkManagerClient.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Chess.RoomNetworkManagerServer" Collapsed="true">
+    <Position X="5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAIEAAAAAAAAgAABAIADASAAAIACAAAAAAAAAAEA=</HashCode>
+      <FileName>RoomNetworkManagerServer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Chess.SingleForm" Collapsed="true">
+    <Position X="7" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>cAAAAEAQAGAAABAQAAGAAIAGgAAAAABCwGAAEAQAACA=</HashCode>
+      <FileName>SingleForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Chess.StartForm" Collapsed="true">
+    <Position X="7.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAABAAAAiAAAACAAAAAABIAAAIAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Chess.TextureHandler" Collapsed="true">
+    <Position X="12.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAIAAEAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TextureHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Chess.WaitForConnectionForm" Collapsed="true">
+    <Position X="8.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAABAAAACAAAACAAAAAABAAAAAAAAAACA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MoveNetworkManager" Collapsed="true">
+    <Position X="3" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAABAAIAAAEgAQAAAAIAAAAAAAACQAAAAAACAABA=</HashCode>
+      <FileName>MoveNetworkManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Chess.Pieces.IPiece" Collapsed="true">
+    <Position X="1" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAEAAAQAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Pieces\IPiece.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Chess.IMessage" Collapsed="true">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACBAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IMessage.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="Chess.Pieces.Colour" Collapsed="true">
+    <Position X="1" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Pieces\IPiece.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

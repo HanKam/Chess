@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using static Chess.HistoryRecord;
 
 namespace Chess
 {
@@ -43,6 +44,10 @@ namespace Chess
         {
             return _playerColour;
         }
+        public MovesHistory GetMovesHistory()
+        {
+            return _history;
+        }
 
         internal bool TryToMovePieceNetwork(int x1, int y1, int x2, int y2, IPiece piece)
         {
@@ -54,7 +59,13 @@ namespace Chess
             if (!success)
                 return false;
 
-            _chessBoard.SetField(x2, y2, piece);
+            string currentPiece = _chessBoard.GetField(x2, y2).ToString();
+            if (currentPiece != piece.ToString())
+            {
+                _history.GetLastMove().MarkPromotion(piece.ToString()[0]);
+                _chessBoard.SetField(x2, y2, piece);
+            }
+
             return true;
         }
         internal bool TryToMovePieceGUI(int x1, int y1, int x2, int y2)
@@ -71,11 +82,26 @@ namespace Chess
             if (!IsMovePossible(x1, y1, x2, y2))
                 return false;
 
-            _history.AddMove(new HistoryRecord(_chessBoard.GetField(x1, y1).ToString()[0],
-                                                       new Point(x1, y1),
-                                                       new Point(x2, y2)));
+            bool capture = _chessBoard.GetField(x2, y2) != null;
+
             _chessBoard.MovePiece(x1, y1, x2, y2);
             _playerOnMove = _playerOnMove == Colour.Black ? Colour.White : Colour.Black;
+
+            char piece = _chessBoard.GetField(x2, y2).ToString()[0];
+            bool check = _chessBoard.IsCheck(_playerOnMove, _history);
+            bool mate = this.IsCheckmate();
+
+            MoveType moveType = MoveType.Normal;
+            if (mate)
+            {
+                moveType = MoveType.Mate;
+            }
+            else if (check)
+            {
+                moveType = MoveType.Check;
+            }
+
+            _history.AddMove(new HistoryRecord(piece, new Point(x1, y1), new Point(x2, y2), moveType, capture));
             return true;
         }
 
@@ -91,6 +117,7 @@ namespace Chess
             bool success = TryToMovePiece(x1, y1, x2, y2);
             if (success)
             {
+                _history.GetLastMove().MarkPromotion(piece.ToString()[0]);
                 _chessBoard.SetField(x2, y2, piece);
             }
             return success;

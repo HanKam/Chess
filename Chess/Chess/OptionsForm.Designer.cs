@@ -30,16 +30,16 @@
         {
             tableLayoutPanel1 = new TableLayoutPanel();
             label1 = new Label();
-            volumeBar = new TrackBar();
             btnBack = new Button();
             tableLayoutPanel2 = new TableLayoutPanel();
             muteCheckBox = new CheckBox();
-            tableLayoutPanel3 = new TableLayoutPanel();
             label2 = new Label();
+            tableLayoutPanel3 = new TableLayoutPanel();
+            volumeBar = new TrackBar();
             tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)volumeBar).BeginInit();
             tableLayoutPanel2.SuspendLayout();
             tableLayoutPanel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)volumeBar).BeginInit();
             SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -72,23 +72,10 @@
             label1.Text = "Opcje";
             label1.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // volumeBar
-            // 
-            volumeBar.Anchor = AnchorStyles.None;
-            volumeBar.BackColor = SystemColors.ActiveCaption;
-            volumeBar.Location = new Point(6, 6);
-            volumeBar.Maximum = 100;
-            volumeBar.Name = "volumeBar";
-            volumeBar.Size = new Size(308, 38);
-            volumeBar.TabIndex = 1;
-            volumeBar.TickStyle = TickStyle.Both;
-            volumeBar.Value = 100;
-            volumeBar.Scroll += volumeBar_Scroll;
-            // 
             // btnBack
             // 
             btnBack.Anchor = AnchorStyles.None;
-            btnBack.BackColor = Color.Khaki;
+            btnBack.BackColor = Color.DarkKhaki;
             btnBack.Font = new Font("Segoe UI", 15F);
             btnBack.Location = new Point(232, 436);
             btnBack.Name = "btnBack";
@@ -131,6 +118,18 @@
             muteCheckBox.UseVisualStyleBackColor = true;
             muteCheckBox.CheckedChanged += muteCheckBox_CheckedChanged;
             // 
+            // label2
+            // 
+            label2.Anchor = AnchorStyles.None;
+            label2.AutoSize = true;
+            label2.Font = new Font("Segoe UI", 20F);
+            label2.Location = new Point(25, 32);
+            label2.Name = "label2";
+            label2.Size = new Size(126, 76);
+            label2.TabIndex = 0;
+            label2.Text = "Poziom głośności";
+            label2.TextAlign = ContentAlignment.MiddleCenter;
+            // 
             // tableLayoutPanel3
             // 
             tableLayoutPanel3.Anchor = AnchorStyles.None;
@@ -145,17 +144,18 @@
             tableLayoutPanel3.Size = new Size(320, 50);
             tableLayoutPanel3.TabIndex = 1;
             // 
-            // label2
+            // volumeBar
             // 
-            label2.Anchor = AnchorStyles.None;
-            label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 20F);
-            label2.Location = new Point(25, 32);
-            label2.Name = "label2";
-            label2.Size = new Size(126, 76);
-            label2.TabIndex = 0;
-            label2.Text = "Poziom głośności";
-            label2.TextAlign = ContentAlignment.MiddleCenter;
+            volumeBar.Anchor = AnchorStyles.None;
+            volumeBar.BackColor = SystemColors.ActiveCaption;
+            volumeBar.Location = new Point(6, 6);
+            volumeBar.Maximum = 100;
+            volumeBar.Name = "volumeBar";
+            volumeBar.Size = new Size(308, 38);
+            volumeBar.TabIndex = 1;
+            volumeBar.TickStyle = TickStyle.Both;
+            volumeBar.Value = 100;
+            volumeBar.Scroll += volumeBar_Scroll;
             // 
             // OptionsForm
             // 
@@ -168,11 +168,11 @@
             Text = "OptionsForm";
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)volumeBar).EndInit();
             tableLayoutPanel2.ResumeLayout(false);
             tableLayoutPanel2.PerformLayout();
             tableLayoutPanel3.ResumeLayout(false);
             tableLayoutPanel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)volumeBar).EndInit();
             ResumeLayout(false);
         }
 

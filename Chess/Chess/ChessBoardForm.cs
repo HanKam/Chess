@@ -127,9 +127,18 @@ namespace Chess
                     else currentPanel.BackColor = colour2;
                 }
             }
+
+            UpdateHistoryLabel();
             ColourPossibleMoves();
         }
 
+        private void UpdateHistoryLabel()
+        {
+            MovesHistory movesHistory = _game.GetMovesHistory();
+            string history = movesHistory.ToString();
+            
+            historyLabel.Text = history;
+        }
         private void ColourPossibleMoves()
         {
             if (_lastClickedTile == null)
@@ -224,6 +233,7 @@ namespace Chess
         {
             promotionPanel.Visible = false;
 
+            
             UpdateBoard();
             EndGameMaybe();
         }
@@ -235,7 +245,7 @@ namespace Chess
 
             if (_lastClickedTile != null && _game.IsMovePossible(_lastClickedTile.Value.X, _lastClickedTile.Value.Y, x, y))
             {
-                btnDraw.BackColor = Color.Khaki;
+                btnDraw.BackColor = Color.DarkKhaki;
                 btnDraw.Text = "Zaproponuj remis";
 
                 if (isPromotion(_lastClickedTile, y))
@@ -252,6 +262,7 @@ namespace Chess
                     _moveNetworkManager.SendData(new MoveMessage(_lastClickedTile.Value.X, _lastClickedTile.Value.Y, x, y,
                                             _game.GetField(x, y).ToString()).Serialize());
                 }
+               
 
                 _lastClickedTile = null;
             }
