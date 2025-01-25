@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using System.Windows.Forms;
+using System.Diagnostics;
 using static Chess.HistoryRecord;
 
 namespace Chess
@@ -15,6 +17,12 @@ namespace Chess
         private MovesHistory _history;
         private Colour _playerOnMove;
         private PlayerColour _playerColour;
+        private Stopwatch _playerTimer;
+        private Stopwatch _opponentTimer;
+        private int _basePlayerTimeMove;
+        private int _baseOpponentTimeMove;
+        private int _timeAdd;
+        private Dictionary<string, int> _positions;
 
         public enum PlayerColour
         {
@@ -28,6 +36,9 @@ namespace Chess
 
         public Game(int timeMove, int timeAdd, PlayerColour playerColour)
         {
+            _basePlayerTimeMove = timeMove;
+            _baseOpponentTimeMove = timeMove;
+            _timeAdd = timeAdd;
             NewGame(playerColour);
         }
         public void NewGame(PlayerColour playerColour)
@@ -37,7 +48,21 @@ namespace Chess
 
             _history = new MovesHistory();
             _playerOnMove = Colour.White;
-            _playerColour = playerColour;            
+            _playerColour = playerColour;
+            
+            _playerTimer = new Stopwatch();
+            _opponentTimer = new Stopwatch();
+
+            _positions = new Dictionary<string, int>();
+            _positions.TryAdd(_chessBoard.ToString(), 1);
+            if (playerColour == PlayerColour.White || playerColour == PlayerColour.Both)
+            {
+                _playerTimer.Start();
+            }
+            else
+            {
+                _opponentTimer.Start();
+            }
         }
 
         public PlayerColour GetPlayerColour()
@@ -47,6 +72,21 @@ namespace Chess
         public MovesHistory GetMovesHistory()
         {
             return _history;
+        }
+
+        public Colour GetPlayerOnMoveColour()
+        {
+            return _playerOnMove;
+        }
+
+        public int GetPlayerRemainingTime()
+        {
+            return int.Max(_basePlayerTimeMove - (int)_playerTimer.Elapsed.TotalSeconds, 0);
+        }
+
+        public int GetOpponentRemainingTime()
+        {
+            return int.Max(_baseOpponentTimeMove - (int)_opponentTimer.Elapsed.TotalSeconds, 0);
         }
 
         internal bool TryToMovePieceNetwork(int x1, int y1, int x2, int y2, IPiece piece)
@@ -85,7 +125,7 @@ namespace Chess
             bool capture = _chessBoard.GetField(x2, y2) != null;
 
             _chessBoard.MovePiece(x1, y1, x2, y2);
-            _playerOnMove = _playerOnMove == Colour.Black ? Colour.White : Colour.Black;
+            SwitchPlayer();
 
             char piece = _chessBoard.GetField(x2, y2).ToString()[0];
             bool check = _chessBoard.IsCheck(_playerOnMove, _history);
@@ -102,7 +142,22 @@ namespace Chess
             }
 
             _history.AddMove(new HistoryRecord(piece, new Point(x1, y1), new Point(x2, y2), moveType, capture));
+            UpdatePositions();
             return true;
+        }
+
+        private void UpdatePositions()
+        {
+            string currentPosStr = _chessBoard.ToString();
+
+            if (_positions.ContainsKey(currentPosStr))
+            {
+                _positions[currentPosStr]++;
+            }
+            else
+            {
+                _positions.TryAdd(currentPosStr, 1);
+            }
         }
 
         internal bool IsMovePossible(int x1, int y1, int x2, int y2)
@@ -132,6 +187,57 @@ namespace Chess
         {
             return _chessBoard.GetPossibleMoves(lastX, lastY, _history);
         }
+
+        internal void SwitchPlayer()
+        {
+            _playerOnMove = _playerOnMove == Colour.Black ? Colour.White : Colour.Black;
+
+            // White player's timer is at the bottom
+            if (_playerColour == PlayerColour.Both)
+            {
+                if (_playerOnMove == Colour.White)
+                {
+                    SwitchToPlayerTimer();
+                }
+                else
+                {
+                    SwitchToOpponentTimer();
+                }
+
+                return;
+            }
+            if (PlayerCompatible())
+            {
+                SwitchToPlayerTimer();
+            }
+            else
+            {
+                SwitchToOpponentTimer();
+            }
+        }
+
+        internal void SwitchToPlayerTimer()
+        {
+            _opponentTimer.Stop();
+            _playerTimer.Start();
+
+            if (_opponentTimer.Elapsed.TotalMilliseconds < _baseOpponentTimeMove * 1000)
+            {
+                _baseOpponentTimeMove += _timeAdd;
+            }
+        }
+
+        internal void SwitchToOpponentTimer()
+        {
+            _playerTimer.Stop();
+            _opponentTimer.Start();
+
+            if (_playerTimer.Elapsed.TotalMilliseconds < _basePlayerTimeMove * 1000)
+            {
+                _basePlayerTimeMove += _timeAdd;
+            }
+        }
+
         internal bool IsCheckmate()
         {
             if(!_chessBoard.IsCheck(_playerOnMove, _history)) 
@@ -148,6 +254,57 @@ namespace Chess
         }
         internal KeyValuePair<GameResult, string> IsEndGame()
         {
+            bool whiteUnsufficientMaterial = ChessBoardHelper.IsThereInsufficientMaterial(_chessBoard, Colour.White);
+            bool blackUnsufficientMaterial = ChessBoardHelper.IsThereInsufficientMaterial(_chessBoard, Colour.Black);
+
+            if (GetPlayerRemainingTime() <= 0)
+            {
+                // player - white
+                if (_playerColour == PlayerColour.White || _playerColour == PlayerColour.Both)
+                {
+                    if (blackUnsufficientMaterial)
+                    {
+                        return new KeyValuePair<GameResult, string>(GameResult.Draw, "Białym skończył się czas, a czarne mają niewystarczającą ilość materiału - mamy remis.");
+                    }
+
+                    return new KeyValuePair<GameResult, string>(GameResult.Lost, "Białym skończył się czas - wygrały czarne.");
+                }
+                // player - black
+                else
+                {
+                    if (whiteUnsufficientMaterial)
+                    {
+                        return new KeyValuePair<GameResult, string>(GameResult.Draw, "Czarnym skończył się czas, a białe mają niewystarczającą ilość materiału - mamy remis.");
+                    }
+
+                    return new KeyValuePair<GameResult, string>(GameResult.Lost, "Czarnym skończył się czas - wygrały białe.");
+                }
+            }
+
+            if (GetOpponentRemainingTime() <= 0)
+            {
+                // player - white
+                if (_playerColour == PlayerColour.White || _playerColour == PlayerColour.Both)
+                {
+                    if (whiteUnsufficientMaterial)
+                    {
+                        return new KeyValuePair<GameResult, string>(GameResult.Draw, "Czarnym skończył się czas, a białe mają niewystarczającą ilość materiału - mamy remis.");
+                    }
+
+                    return new KeyValuePair<GameResult, string>(GameResult.Win, "Czarnym skończył się czas - wygrały białe.");
+                }
+                // player - black
+                else
+                {
+                    if (blackUnsufficientMaterial)
+                    {
+                        return new KeyValuePair<GameResult, string>(GameResult.Draw, "Białym skończył się czas, a czarne mają niewystarczającą ilość materiału - mamy remis.");
+                    }
+
+                    return new KeyValuePair<GameResult, string>(GameResult.Win, "Białym skończył się czas - wygrały czarne.");
+                }
+            }
+
             if (IsCheckmate())
             {
                 //Singleplayer
@@ -163,9 +320,28 @@ namespace Chess
                     return new KeyValuePair<GameResult, string>(GameResult.Win, "Szach-mat - wygrały czarne.");
                 return new KeyValuePair<GameResult, string>(GameResult.Lost, "Szach-mat - wygrały białe.");
             }
+
             if (IsStalemate())
             {
                 return new KeyValuePair<GameResult, string>(GameResult.Draw, "Pat - mamy remis.");
+            }
+
+            if (whiteUnsufficientMaterial && blackUnsufficientMaterial)
+            {
+                return new KeyValuePair<GameResult, string>(GameResult.Draw, "Niewystarczająca ilość materiału - mamy remis.");
+            }
+
+            if (_history.Is50MovesRule())
+            {
+                return new KeyValuePair<GameResult, string>(GameResult.Draw, "Wykonano pięćdziesiąt ruchów bez ruchu piona i zbicia - mamy remis.");
+            }
+
+            foreach (var position in _positions)
+            {
+                if (position.Value >= 3)
+                {
+                    return new KeyValuePair<GameResult, string>(GameResult.Draw, "Ta sama pozycja powtórzyła się trzy razy - mamy remis.");
+                }
             }
 
             return new KeyValuePair<GameResult, string>(GameResult.None, string.Empty);

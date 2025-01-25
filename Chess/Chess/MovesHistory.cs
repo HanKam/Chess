@@ -135,5 +135,33 @@ namespace Chess
 
             return stringHistory;
         }
+
+        public bool Is50MovesRule()
+        {
+            int movesWithoutCaptureOrPawnMove = 0;
+            for (int i = _history.Count() - 1; i >= 0; i--)
+            {
+                HistoryRecord record = _history[i];
+
+                if (record.capture)
+                {
+                    return false;
+                }
+
+                if (record.piece == new Pawn(Colour.White).ToString()[0])
+                {
+                    return false;
+                }
+
+                movesWithoutCaptureOrPawnMove++;
+
+                if (movesWithoutCaptureOrPawnMove >= 50)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }

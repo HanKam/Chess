@@ -11,7 +11,6 @@ namespace Chess
     internal class AudioManager
     {
         private static WaveOutEvent waveOutEvent;
-        private static AudioFileReader audioFileReader;
 
 
         public static void PlayAudio()
@@ -33,7 +32,17 @@ namespace Chess
                 waveOutEvent = new WaveOutEvent();
                 waveOutEvent.Init(wav);
                 waveOutEvent.Volume = 1f;
+
+                waveOutEvent.PlaybackStopped += (sender, e) =>
+                {
+                    // looping playing audio
+                    wav = new RawSourceWaveStream(new MemoryStream(audioData), new WaveFormat(44100, 16, 2));
+                    waveOutEvent.Init(wav);
+                    waveOutEvent.Play();
+                };
+
                 waveOutEvent.Play();
+                
             }
             catch (Exception ex)
             {

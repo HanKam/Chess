@@ -1,9 +1,10 @@
-using Chess.Pieces;
+ï»¿using Chess.Pieces;
 using System;
 using System.Drawing;
 using System.Net;
 using static Chess.Game;
-using static System.Net.Mime.MediaTypeNames;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
+using Timer = System.Windows.Forms.Timer;
 
 namespace Chess
 {
@@ -18,7 +19,7 @@ namespace Chess
         private MoveNetworkManager _moveNetworkManager;
         private WaitForConnectionForm _parentForm;
         private ConnectionType _connectionType;
-
+        private Timer _showPlayersTime;
 
         public enum ConnectionType
         {
@@ -44,6 +45,12 @@ namespace Chess
                 _game = new Game(timeMove, timeAdd, colour == Colour.White ? Game.PlayerColour.White : Game.PlayerColour.Black);
                 _moveNetworkManager.Connect(ipAddress.ToString(), 6942);
             }
+
+            _showPlayersTime = new Timer();
+            _showPlayersTime.Tick += new EventHandler(OnTimerTick);
+            _showPlayersTime.Interval = 10;
+
+            _showPlayersTime.Start();
         }
 
         public ChessBoardForm(int timeMove, int timeAdd)
@@ -52,6 +59,12 @@ namespace Chess
 
             _game = new Game(timeMove, timeAdd, Game.PlayerColour.Both);
             btnDraw.Visible = false;
+
+            _showPlayersTime = new Timer();
+            _showPlayersTime.Tick += new EventHandler(OnTimerTick);
+            _showPlayersTime.Interval = 10;
+
+            _showPlayersTime.Start();
         }
 
         private void ChessBoardForm_Load(object sender, EventArgs e)
@@ -63,11 +76,13 @@ namespace Chess
             this.DrawPromotionPanel();
         }
 
-
         private void DrawBoard()
         {
             Color colour1 = Color.SaddleBrown;
             Color colour2 = Color.SandyBrown;
+
+            int offsetX = (this.boardPanel.Width - _tileSize * 8) / 2;
+            int offsetY = (this.boardPanel.Height - _tileSize * 8) / 2;
 
             for (int x = 0; x < 8; x++)
             {
@@ -75,11 +90,11 @@ namespace Chess
                 {
                     int visibleY = (_game.GetPlayerColour() == Game.PlayerColour.Black) ? y : 7 - y;
 
-                    // creating tiles
+                    // creating tiles 
                     Panel boardTile = new Panel
                     {
                         Size = new Size(_tileSize, _tileSize),
-                        Location = new Point(_tileSize * x, _tileSize * visibleY),
+                        Location = new Point(_tileSize * x + offsetX, _tileSize * visibleY + offsetY),
                         BorderStyle = BorderStyle.FixedSingle,
                         Anchor = AnchorStyles.None
 
@@ -129,7 +144,19 @@ namespace Chess
             }
 
             UpdateHistoryLabel();
+            UpdatePlayerOnMoveLabel();
             ColourPossibleMoves();
+        }
+
+        private void OnTimerTick(object sender, EventArgs e)
+        {
+            int playerTime = _game.GetPlayerRemainingTime();
+            TimeSpan time = TimeSpan.FromSeconds(playerTime);
+            timerPlLabel.Text = time.ToString(@"mm\:ss");
+
+            int opponentTime = _game.GetOpponentRemainingTime();
+            time = TimeSpan.FromSeconds(opponentTime);
+            timerOpLabel.Text = time.ToString(@"mm\:ss");
         }
 
         private void UpdateHistoryLabel()
@@ -139,6 +166,20 @@ namespace Chess
             
             historyLabel.Text = history;
         }
+
+        private void UpdatePlayerOnMoveLabel()
+        {
+            Colour playerOnMove = _game.GetPlayerOnMoveColour();
+            if (playerOnMove == Colour.White)
+            {
+                whoMoveLabel.Text = "Ruch biaÅ‚ych";
+            }
+            else
+            {
+                whoMoveLabel.Text = "Ruch czarnych";
+            }
+        }
+
         private void ColourPossibleMoves()
         {
             if (_lastClickedTile == null)
@@ -191,7 +232,7 @@ namespace Chess
             };
             Button btnCancel = new Button()
             {
-                Text = "Cancel",
+                Text = "Cofnij",
                 Location = new Point(_tileSize * 4, 0),
                 Width = _tileSize,
                 Height = _tileSize
@@ -204,7 +245,7 @@ namespace Chess
             promotionPanel.Controls.Add(btnKnight);
             promotionPanel.Controls.Add(btnCancel);
 
-            // Przypisujemy zdarzenia do przycisków
+            // Przypisujemy zdarzenia do przyciskÃ³w
             btnQueen.Click += (sender, e) => PromotePawn(new Queen(_game.GetColourOnMove()));
             btnRook.Click += (sender, e) => PromotePawn(new Rook(_game.GetColourOnMove()));
             btnBishop.Click += (sender, e) => PromotePawn(new Bishop(_game.GetColourOnMove()));
@@ -303,13 +344,13 @@ namespace Chess
             {
                 if (message.IsResignation())
                 {
-                    EndGame(Game.GameResult.Win, "Przeciwnik(czka) siê podda³(a).");
+                    EndGame(Game.GameResult.Win, "Przeciwnik(czka) siÄ™ poddaÅ‚(a).");
                     return;
                 }
                 if (message.IsDrawProposal())
                 {
                     btnDraw.BackColor = Color.DeepSkyBlue;
-                    btnDraw.Text = "Przyjmujê remis";
+                    btnDraw.Text = "PrzyjmujÄ™ remis";
                     return;
                 }
                 if (message.IsDrawAccepted())
@@ -340,9 +381,7 @@ namespace Chess
                     default:
                         piece = new Pawn(colour); break;
                 }
-
-
-                Console.Out.WriteLine(message.Serialize());
+                               
 
                 _game.TryToMovePieceNetwork(message.oldX, message.oldY, message.newX, message.newY, piece);
 
@@ -368,7 +407,7 @@ namespace Chess
             {
                 _moveNetworkManager.SendData(MoveMessage.RESIGNATION.Serialize());
             }
-            EndGame(Game.GameResult.Lost, "Podda³eœ(³aœ) siê! Twój przeciwnik wygra³(a)!");
+            EndGame(Game.GameResult.Lost, "PoddaÅ‚eÅ› siÄ™. TwÃ³j przeciwnik wygraÅ‚!");
         }
 
 
@@ -381,7 +420,7 @@ namespace Chess
                 return;
             }
 
-            MessageBox.Show("Do Twojego przeciwnika zosta³a wys³ana wiadomoœæ o propozycji remisu.", "PROPOZYCJA REMISU", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Do Twojego przeciwnika zostaÅ‚a wysÅ‚ana wiadomoÅ›Ä‡ o propozycji remisu.", "PROPOZYCJA REMISU", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             if (_game.GetPlayerColour() != Game.PlayerColour.Both)
             {

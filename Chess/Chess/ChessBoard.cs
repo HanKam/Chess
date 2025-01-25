@@ -144,6 +144,27 @@ namespace Chess
             List<Point> tempPossibleMoves = this.board[x, y].GetPossibleMoves(this, x, y, history);
             return RemoveMovesLeadingToCheck(x, y, tempPossibleMoves, this.board[x, y].GetColour(), history);
             
-        }       
+        }
+        
+        public override string ToString()
+        {
+            string str = "";
+            for (int y = 0; y < 8; y++)
+            {
+                for (int x = 0; x < 8; x++)
+                {
+                    if (board[y, x] != null)
+                    {
+                        str += board[y, x].ToString();
+                    }
+                    else
+                    {
+                        str += ".";
+                    }
+                }
+            }
+
+            return str; 
+        }
     }
 }

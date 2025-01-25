@@ -13,9 +13,13 @@ namespace Chess
 {
     public partial class MainMenuForm : Form
     {
+        private int _originalWidth;
+        private int _originalHeight;
         public MainMenuForm()
         {
             InitializeComponent();
+            _originalHeight = this.Size.Height;
+            _originalWidth = this.Size.Width;
         }
 
         private void MainMenuForm_Load(object sender, EventArgs e)
@@ -31,8 +35,8 @@ namespace Chess
             startForm.TopLevel = false;
             startForm.FormBorderStyle = FormBorderStyle.None;
             startForm.Anchor = AnchorStyles.None;
-            int x = (this.Size.Width - 800) / 2;
-            int y = (this.Size.Height - 600) / 2;
+            int x = (this.Size.Width - _originalWidth) / 2;
+            int y = (this.Size.Height - _originalHeight) / 2;
             startForm.Location = new Point(x, y);
 
             this.Controls.Add(startForm);
@@ -48,8 +52,8 @@ namespace Chess
             optionsForm.TopLevel = false;
             optionsForm.FormBorderStyle = FormBorderStyle.None;
             optionsForm.Anchor = AnchorStyles.None;
-            int x = (this.Size.Width - 800) / 2;
-            int y = (this.Size.Height - 600) / 2;
+            int x = (this.Size.Width - _originalWidth) / 2;
+            int y = (this.Size.Height - _originalHeight) / 2;
             optionsForm.Location = new Point(x, y);
 
             this.Controls.Add(optionsForm);
