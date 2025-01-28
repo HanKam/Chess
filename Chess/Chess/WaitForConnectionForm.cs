@@ -53,7 +53,7 @@ namespace Chess
             }
             else
             {
-                ChessBoardForm chessBoardForm = new ChessBoardForm(ChessBoardForm.ConnectionType.Host, this._colour, this._timeMove, this._timeAdd, this);
+                ChessBoardForm chessBoardForm = new ChessBoardForm(ChessBoardForm.ConnectionType.Host, this._colour, this._timeMove, this._timeAdd, _roomName, this);
 
                 chessBoardForm.TopLevel = false;
                 chessBoardForm.FormBorderStyle = FormBorderStyle.None;

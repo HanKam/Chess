@@ -31,13 +31,14 @@ namespace Chess
             }
             else
             {
-                AudioManager.ResumeAudio();
+                AudioManager.ResumeAudio(volumeBar.Value);
             }
 
         }
 
         private void volumeBar_Scroll(object sender, EventArgs e)
         {
+            muteCheckBox.Checked = false;
             AudioManager.ChangeVolume(volumeBar.Value);
         }
     }

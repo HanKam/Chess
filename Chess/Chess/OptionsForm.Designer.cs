@@ -47,16 +47,16 @@
             tableLayoutPanel1.ColumnCount = 1;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel1.Controls.Add(label1, 0, 0);
-            tableLayoutPanel1.Controls.Add(btnBack, 0, 3);
+            tableLayoutPanel1.Controls.Add(btnBack, 0, 2);
             tableLayoutPanel1.Controls.Add(tableLayoutPanel2, 0, 1);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 0);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
-            tableLayoutPanel1.RowCount = 4;
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 21.0526314F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 26.31579F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 26.31579F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 26.31579F));
+            tableLayoutPanel1.RowCount = 3;
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 28.5714245F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 35.7142868F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 35.7142868F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             tableLayoutPanel1.Size = new Size(784, 561);
             tableLayoutPanel1.TabIndex = 0;
             // 
@@ -67,7 +67,7 @@
             label1.Font = new Font("Segoe UI", 32F);
             label1.Location = new Point(3, 0);
             label1.Name = "label1";
-            label1.Size = new Size(778, 118);
+            label1.Size = new Size(778, 160);
             label1.TabIndex = 0;
             label1.Text = "Opcje";
             label1.TextAlign = ContentAlignment.MiddleCenter;
@@ -77,7 +77,7 @@
             btnBack.Anchor = AnchorStyles.None;
             btnBack.BackColor = Color.DarkKhaki;
             btnBack.Font = new Font("Segoe UI", 15F);
-            btnBack.Location = new Point(232, 436);
+            btnBack.Location = new Point(232, 410);
             btnBack.Name = "btnBack";
             btnBack.Size = new Size(320, 100);
             btnBack.TabIndex = 4;
@@ -96,11 +96,11 @@
             tableLayoutPanel2.Controls.Add(label2, 0, 0);
             tableLayoutPanel2.Controls.Add(tableLayoutPanel3, 1, 0);
             tableLayoutPanel2.Dock = DockStyle.Fill;
-            tableLayoutPanel2.Location = new Point(3, 121);
+            tableLayoutPanel2.Location = new Point(3, 163);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
             tableLayoutPanel2.RowCount = 1;
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel2.Size = new Size(778, 141);
+            tableLayoutPanel2.Size = new Size(778, 194);
             tableLayoutPanel2.TabIndex = 5;
             // 
             // muteCheckBox
@@ -109,7 +109,7 @@
             muteCheckBox.AutoSize = true;
             muteCheckBox.BackgroundImageLayout = ImageLayout.None;
             muteCheckBox.Font = new Font("Segoe UI", 20F);
-            muteCheckBox.Location = new Point(625, 49);
+            muteCheckBox.Location = new Point(625, 76);
             muteCheckBox.Name = "muteCheckBox";
             muteCheckBox.Size = new Size(128, 42);
             muteCheckBox.TabIndex = 0;
@@ -123,7 +123,7 @@
             label2.Anchor = AnchorStyles.None;
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 20F);
-            label2.Location = new Point(25, 32);
+            label2.Location = new Point(25, 59);
             label2.Name = "label2";
             label2.Size = new Size(126, 76);
             label2.TabIndex = 0;
@@ -137,7 +137,7 @@
             tableLayoutPanel3.ColumnCount = 1;
             tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel3.Controls.Add(volumeBar, 0, 0);
-            tableLayoutPanel3.Location = new Point(228, 45);
+            tableLayoutPanel3.Location = new Point(228, 72);
             tableLayoutPanel3.Name = "tableLayoutPanel3";
             tableLayoutPanel3.RowCount = 1;
             tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));

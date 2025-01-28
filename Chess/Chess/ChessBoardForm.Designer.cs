@@ -41,7 +41,7 @@
             boardPanel = new Panel();
             tableLayoutPanel4 = new TableLayoutPanel();
             roomNameLabel = new Label();
-            historyLabel = new Label();
+            historyText = new ListBox();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             tableLayoutPanel5.SuspendLayout();
@@ -51,6 +51,7 @@
             // 
             // tableLayoutPanel1
             // 
+            tableLayoutPanel1.CellBorderStyle = TableLayoutPanelCellBorderStyle.OutsetDouble;
             tableLayoutPanel1.ColumnCount = 2;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 500F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
@@ -72,13 +73,13 @@
             tableLayoutPanel2.Controls.Add(tableLayoutPanel3, 0, 0);
             tableLayoutPanel2.Controls.Add(boardPanel, 0, 1);
             tableLayoutPanel2.Dock = DockStyle.Fill;
-            tableLayoutPanel2.Location = new Point(3, 3);
+            tableLayoutPanel2.Location = new Point(6, 6);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
             tableLayoutPanel2.RowCount = 3;
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 420F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel2.Size = new Size(494, 555);
+            tableLayoutPanel2.Size = new Size(494, 549);
             tableLayoutPanel2.TabIndex = 0;
             // 
             // tableLayoutPanel5
@@ -91,11 +92,11 @@
             tableLayoutPanel5.Controls.Add(whoMoveLabel, 1, 0);
             tableLayoutPanel5.Controls.Add(btnGiveUp, 2, 0);
             tableLayoutPanel5.Dock = DockStyle.Fill;
-            tableLayoutPanel5.Location = new Point(3, 490);
+            tableLayoutPanel5.Location = new Point(3, 487);
             tableLayoutPanel5.Name = "tableLayoutPanel5";
             tableLayoutPanel5.RowCount = 1;
             tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel5.Size = new Size(488, 62);
+            tableLayoutPanel5.Size = new Size(488, 59);
             tableLayoutPanel5.TabIndex = 1;
             // 
             // timerPlLabel
@@ -107,7 +108,7 @@
             timerPlLabel.Font = new Font("Segoe UI", 15F);
             timerPlLabel.Location = new Point(3, 0);
             timerPlLabel.Name = "timerPlLabel";
-            timerPlLabel.Size = new Size(102, 62);
+            timerPlLabel.Size = new Size(102, 59);
             timerPlLabel.TabIndex = 1;
             timerPlLabel.Text = "90:00";
             timerPlLabel.TextAlign = ContentAlignment.MiddleCenter;
@@ -119,9 +120,9 @@
             whoMoveLabel.Font = new Font("Segoe UI", 13F);
             whoMoveLabel.Location = new Point(111, 0);
             whoMoveLabel.Name = "whoMoveLabel";
-            whoMoveLabel.Size = new Size(264, 62);
+            whoMoveLabel.Size = new Size(264, 59);
             whoMoveLabel.TabIndex = 2;
-            whoMoveLabel.Text = "Ty Ty!";
+            whoMoveLabel.Text = "Ruch białych";
             whoMoveLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // btnGiveUp
@@ -131,7 +132,7 @@
             btnGiveUp.Font = new Font("Segoe UI", 10F);
             btnGiveUp.Location = new Point(381, 3);
             btnGiveUp.Name = "btnGiveUp";
-            btnGiveUp.Size = new Size(104, 56);
+            btnGiveUp.Size = new Size(104, 53);
             btnGiveUp.TabIndex = 3;
             btnGiveUp.Text = "Poddaję się";
             btnGiveUp.UseVisualStyleBackColor = false;
@@ -152,7 +153,7 @@
             tableLayoutPanel3.RowCount = 1;
             tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            tableLayoutPanel3.Size = new Size(488, 61);
+            tableLayoutPanel3.Size = new Size(488, 58);
             tableLayoutPanel3.TabIndex = 0;
             // 
             // timerOpLabel
@@ -164,7 +165,7 @@
             timerOpLabel.Font = new Font("Segoe UI", 15F);
             timerOpLabel.Location = new Point(3, 0);
             timerOpLabel.Name = "timerOpLabel";
-            timerOpLabel.Size = new Size(102, 61);
+            timerOpLabel.Size = new Size(102, 58);
             timerOpLabel.TabIndex = 0;
             timerOpLabel.Text = "90:00";
             timerOpLabel.TextAlign = ContentAlignment.MiddleCenter;
@@ -174,7 +175,7 @@
             promotionPanel.Dock = DockStyle.Fill;
             promotionPanel.Location = new Point(111, 3);
             promotionPanel.Name = "promotionPanel";
-            promotionPanel.Size = new Size(264, 55);
+            promotionPanel.Size = new Size(264, 52);
             promotionPanel.TabIndex = 1;
             // 
             // btnDraw
@@ -184,7 +185,7 @@
             btnDraw.Font = new Font("Segoe UI", 10F);
             btnDraw.Location = new Point(381, 3);
             btnDraw.Name = "btnDraw";
-            btnDraw.Size = new Size(104, 55);
+            btnDraw.Size = new Size(104, 52);
             btnDraw.TabIndex = 2;
             btnDraw.Text = "Zaproponuj remis";
             btnDraw.UseVisualStyleBackColor = false;
@@ -194,24 +195,25 @@
             // 
             boardPanel.Anchor = AnchorStyles.None;
             boardPanel.BackColor = SystemColors.GradientActiveCaption;
-            boardPanel.Location = new Point(47, 77);
+            boardPanel.Location = new Point(47, 74);
             boardPanel.Name = "boardPanel";
             boardPanel.Size = new Size(400, 400);
             boardPanel.TabIndex = 2;
             // 
             // tableLayoutPanel4
             // 
+            tableLayoutPanel4.CellBorderStyle = TableLayoutPanelCellBorderStyle.OutsetDouble;
             tableLayoutPanel4.ColumnCount = 1;
             tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel4.Controls.Add(roomNameLabel, 0, 0);
-            tableLayoutPanel4.Controls.Add(historyLabel, 0, 1);
+            tableLayoutPanel4.Controls.Add(historyText, 0, 1);
             tableLayoutPanel4.Dock = DockStyle.Fill;
-            tableLayoutPanel4.Location = new Point(503, 3);
+            tableLayoutPanel4.Location = new Point(509, 6);
             tableLayoutPanel4.Name = "tableLayoutPanel4";
             tableLayoutPanel4.RowCount = 2;
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Percent, 12F));
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Percent, 88F));
-            tableLayoutPanel4.Size = new Size(278, 555);
+            tableLayoutPanel4.Size = new Size(269, 549);
             tableLayoutPanel4.TabIndex = 1;
             // 
             // roomNameLabel
@@ -220,24 +222,25 @@
             roomNameLabel.BorderStyle = BorderStyle.FixedSingle;
             roomNameLabel.Dock = DockStyle.Fill;
             roomNameLabel.Font = new Font("Segoe UI", 15F);
-            roomNameLabel.Location = new Point(3, 0);
+            roomNameLabel.Location = new Point(6, 3);
             roomNameLabel.Name = "roomNameLabel";
-            roomNameLabel.Size = new Size(272, 66);
+            roomNameLabel.Size = new Size(257, 64);
             roomNameLabel.TabIndex = 0;
             roomNameLabel.Text = "Przykładowa nazwa pokoju szachowego";
             roomNameLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // historyLabel
+            // historyText
             // 
-            historyLabel.AutoSize = true;
-            historyLabel.BorderStyle = BorderStyle.FixedSingle;
-            historyLabel.Dock = DockStyle.Fill;
-            historyLabel.Font = new Font("Cascadia Mono", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 238);
-            historyLabel.Location = new Point(3, 66);
-            historyLabel.Name = "historyLabel";
-            historyLabel.Size = new Size(272, 489);
-            historyLabel.TabIndex = 1;
-            historyLabel.Text = "ssssssssssss";
+            historyText.BackColor = SystemColors.GradientActiveCaption;
+            historyText.Dock = DockStyle.Fill;
+            historyText.Font = new Font("Cascadia Mono", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 238);
+            historyText.FormattingEnabled = true;
+            historyText.ItemHeight = 20;
+            historyText.Location = new Point(6, 73);
+            historyText.Name = "historyText";
+            historyText.ScrollAlwaysVisible = true;
+            historyText.Size = new Size(257, 470);
+            historyText.TabIndex = 1;
             // 
             // ChessBoardForm
             // 
@@ -265,16 +268,16 @@
         private TableLayoutPanel tableLayoutPanel1;
         private TableLayoutPanel tableLayoutPanel2;
         private TableLayoutPanel tableLayoutPanel3;
-        private TableLayoutPanel tableLayoutPanel4;
-        private Label roomNameLabel;
         private TableLayoutPanel tableLayoutPanel5;
         private Label timerPlLabel;
         private Label timerOpLabel;
         private Panel boardPanel;
         private Panel promotionPanel;
-        private Label historyLabel;
         private Label whoMoveLabel;
         private Button btnGiveUp;
         private Button btnDraw;
+        private TableLayoutPanel tableLayoutPanel4;
+        private Label roomNameLabel;
+        private ListBox historyText;
     }
 }

@@ -126,7 +126,7 @@ namespace Chess
                 }
 
                 Colour colour = _item.Value.playerColour == Pieces.Colour.White ? Colour.Black : Colour.White;
-                ChessBoardForm chessBoardForm = new ChessBoardForm(ChessBoardForm.ConnectionType.Client, colour, _item.Value.timeMove, _item.Value.timeAdd, null, _item.Key);
+                ChessBoardForm chessBoardForm = new ChessBoardForm(ChessBoardForm.ConnectionType.Client, colour, _item.Value.timeMove, _item.Value.timeAdd, _item.Value.roomName, null, _item.Key);
 
                 chessBoardForm.TopLevel = false;
                 chessBoardForm.FormBorderStyle = FormBorderStyle.None;

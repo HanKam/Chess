@@ -50,11 +50,11 @@ namespace Chess
                 separator = "x";
 
             if(this.piece == 'P')
-                move = ((char)(this.from.X + 'a')).ToString() + this.from.Y.ToString() + separator 
-                    + ((char)(this.to.X + 'a')).ToString() + this.to.Y.ToString();
+                move = ((char)(this.from.X + 'a')).ToString() + (this.from.Y + 1).ToString() + separator 
+                    + ((char)(this.to.X + 'a')).ToString() + (this.from.Y + 1).ToString();
             else
-                move = piece.ToString() + ((char)(this.from.X + 'a')).ToString() + this.from.Y.ToString() + separator 
-                    + ((char)(this.to.X + 'a')).ToString() + this.to.Y.ToString();
+                move = piece.ToString() + ((char)(this.from.X + 'a')).ToString() + (this.from.Y + 1).ToString() + separator 
+                    + ((char)(this.to.X + 'a')).ToString() + (this.from.Y + 1).ToString();
 
             if (this.piece == 'K' && this.to.X == 6)
                 move = "O-O";
@@ -112,17 +112,22 @@ namespace Chess
 
         public override string ToString()
         {
-            string stringHistory = "";
+            string stringHistory = "1.   ";
             bool blackMove = false;
+            int licznik = 2;
 
             foreach (HistoryRecord record in _history)
             {
                 stringHistory += record.ToString();
-
+                
 
                 if (blackMove)
                 {
-                    stringHistory += "\n";
+                    stringHistory += "\n";                    
+                    stringHistory += licznik.ToString() + ".";
+                    for (int i = licznik.ToString().Length; i < 4; i++)
+                        stringHistory += " ";
+                    licznik++;
                     blackMove = false;                    
                 }
                 else

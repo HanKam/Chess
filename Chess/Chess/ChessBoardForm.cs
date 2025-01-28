@@ -2,6 +2,7 @@
 using System;
 using System.Drawing;
 using System.Net;
+using System.Windows.Forms;
 using static Chess.Game;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 using Timer = System.Windows.Forms.Timer;
@@ -26,13 +27,14 @@ namespace Chess
             Host, Client
         }
 
-
-        public ChessBoardForm(ConnectionType connectionType, Colour colour, int timeMove, int timeAdd, WaitForConnectionForm parentForm = null, IPAddress ipAddress = null)
+        public ChessBoardForm(ConnectionType connectionType, Colour colour, int timeMove, int timeAdd, string roomName, WaitForConnectionForm parentForm = null, IPAddress ipAddress = null)
         {
             InitializeComponent();
 
             _moveNetworkManager = new MoveNetworkManager(6942, ReceiveData);
             _connectionType = connectionType;
+
+            roomNameLabel.Text = roomName;
 
             if (_connectionType == ConnectionType.Host)
             {
@@ -57,8 +59,11 @@ namespace Chess
         {
             InitializeComponent();
 
+            roomNameLabel.Text = "Gra lokalna";
+
             _game = new Game(timeMove, timeAdd, Game.PlayerColour.Both);
             btnDraw.Visible = false;
+            btnGiveUp.Text = "Przerwij grę";
 
             _showPlayersTime = new Timer();
             _showPlayersTime.Tick += new EventHandler(OnTimerTick);
@@ -157,14 +162,23 @@ namespace Chess
             int opponentTime = _game.GetOpponentRemainingTime();
             time = TimeSpan.FromSeconds(opponentTime);
             timerOpLabel.Text = time.ToString(@"mm\:ss");
+
+            EndGameMaybe();
         }
 
         private void UpdateHistoryLabel()
         {
             MovesHistory movesHistory = _game.GetMovesHistory();
             string history = movesHistory.ToString();
-            
-            historyLabel.Text = history;
+
+            string[] splitHistory = history.Split("\n"); 
+
+            historyText.Items.Clear();
+
+            foreach (string part in splitHistory)
+            {                
+                historyText.Items.Add(part);  
+            }
         }
 
         private void UpdatePlayerOnMoveLabel()
@@ -274,7 +288,6 @@ namespace Chess
         {
             promotionPanel.Visible = false;
 
-            
             UpdateBoard();
             EndGameMaybe();
         }
@@ -303,7 +316,7 @@ namespace Chess
                     _moveNetworkManager.SendData(new MoveMessage(_lastClickedTile.Value.X, _lastClickedTile.Value.Y, x, y,
                                             _game.GetField(x, y).ToString()).Serialize());
                 }
-               
+
 
                 _lastClickedTile = null;
             }
@@ -358,7 +371,24 @@ namespace Chess
                     EndGame(Game.GameResult.Draw, "Remis za porozumieniem stron.");
                     return;
                 }
-
+                if (message.IsGameEnded())
+                {
+                    Game.GameResult result = GameResult.Win;
+                    switch (message.gameResult)
+                    {
+                        case "Win":
+                            result = Game.GameResult.Win;
+                            break;
+                        case "Lost":
+                            result = Game.GameResult.Lost;
+                            break;
+                        case "Draw":
+                            result = Game.GameResult.Draw;
+                            break;
+                    }
+                    EndGame(result, message.gameResultReason);
+                    return;
+                }
 
                 // In main thread
                 IPiece piece;
@@ -381,7 +411,7 @@ namespace Chess
                     default:
                         piece = new Pawn(colour); break;
                 }
-                               
+
 
                 _game.TryToMovePieceNetwork(message.oldX, message.oldY, message.newX, message.newY, piece);
 
@@ -394,11 +424,68 @@ namespace Chess
 
         private void EndGameMaybe()
         {
+            // check if game ended only if it's online game and you are host
+            if (_connectionType == ConnectionType.Client)
+            {
+                return;
+            }
+
             KeyValuePair<GameResult, string> result = _game.IsEndGame();
+
             if (result.Key != GameResult.None)
             {
+                if (_game.GetPlayerColour() != Game.PlayerColour.Both)
+                {
+                    SendGameResultToClient(result);
+                }
                 EndGame(result.Key, result.Value);
             }
+        }
+
+        private void SendGameResultToClient(KeyValuePair<GameResult, string> result)
+        {
+            string resultStr = "";
+            switch (result.Key)
+            {
+                case GameResult.Win:
+                    resultStr = "Lost";
+                    break;
+                case GameResult.Lost:
+                    resultStr = "Win";
+                    break;
+                case GameResult.Draw:
+                    resultStr = "Draw";
+                    break;
+            }
+
+            _moveNetworkManager.SendData(new MoveMessage(resultStr, result.Value).Serialize());
+        }
+
+        private void EndGame(Game.GameResult gameResult, string reason)
+        {
+            string result = "";
+            switch (gameResult)
+            {
+                case Game.GameResult.Lost: result = "Przegrana!"; break;
+                case Game.GameResult.Win: result = "Wygrana!"; break;
+                case Game.GameResult.Draw: result = "Remis!"; break;
+            }
+
+            _showPlayersTime.Stop();
+
+            MessageBox.Show(reason, "Koniec gry! " + result, MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            this.Close();
+            if (_parentForm != null)
+            {
+                _parentForm.Close();
+            }
+
+            if (_moveNetworkManager != null)
+            {
+                _moveNetworkManager.Close();
+            }
+
         }
 
         private void btnGiveUp_Click(object sender, EventArgs e)
@@ -406,8 +493,10 @@ namespace Chess
             if (_game.GetPlayerColour() != Game.PlayerColour.Both)
             {
                 _moveNetworkManager.SendData(MoveMessage.RESIGNATION.Serialize());
+                EndGame(Game.GameResult.Lost, "Poddałeś się. Twój przeciwnik wygrał!");
             }
-            EndGame(Game.GameResult.Lost, "Poddałeś się. Twój przeciwnik wygrał!");
+            EndGame(Game.GameResult.Draw, "Przerwano grę!");
+
         }
 
 
@@ -428,29 +517,5 @@ namespace Chess
             }
         }
 
-        private void EndGame(Game.GameResult gameResult, string reason)
-        {
-            string result = "";
-            switch (gameResult)
-            {
-                case Game.GameResult.Lost: result = "Przegrana!"; break;
-                case Game.GameResult.Win: result = "Wygrana!"; break;
-                case Game.GameResult.Draw: result = "Remis!"; break;
-
-            }
-
-            MessageBox.Show(reason, "Koniec gry! " + result, MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-            this.Close();
-            if (_parentForm != null)
-            {
-                _parentForm.Close();
-            }
-
-            if (_moveNetworkManager != null)
-            {
-                _moveNetworkManager.Close();
-            }
-        }
     }
 }

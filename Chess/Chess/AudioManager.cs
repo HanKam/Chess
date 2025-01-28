@@ -51,11 +51,11 @@ namespace Chess
         }
         public static void StopAudio()
         {
-            waveOutEvent.Stop();
+            waveOutEvent.Volume = 0f;
         }
-        public static void ResumeAudio()
+        public static void ResumeAudio(float value)
         {
-            waveOutEvent.Play();
+            ChangeVolume(value);
         }
 
         internal static void ChangeVolume(float value)

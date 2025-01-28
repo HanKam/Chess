@@ -192,7 +192,7 @@ namespace Chess
         {
             _playerOnMove = _playerOnMove == Colour.Black ? Colour.White : Colour.Black;
 
-            // White player's timer is at the bottom
+            // white player's timer is at the bottom
             if (_playerColour == PlayerColour.Both)
             {
                 if (_playerOnMove == Colour.White)
